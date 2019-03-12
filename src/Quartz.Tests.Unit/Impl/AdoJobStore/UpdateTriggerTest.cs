@@ -132,7 +132,6 @@ namespace Quartz.Tests.Unit.Impl.AdoJobStore
             metaData.Stub(m => m.GetParameterName(Arg<string>.Is.Anything)).Do(paramFunc);
 
             DelegateInitializationArgs args = new DelegateInitializationArgs();
-            args.Logger = LogProvider.GetLogger(GetType());
             args.TablePrefix = "QRTZ_";
             args.InstanceName = "TESTSCHED";
             args.InstanceId = "INSTANCE";

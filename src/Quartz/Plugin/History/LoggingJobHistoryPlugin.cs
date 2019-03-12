@@ -357,7 +357,7 @@ namespace Quartz.Plugin.History
         /// <seealso cref="JobExecutionVetoed(IJobExecutionContext)"/>
         public virtual void JobToBeExecuted(IJobExecutionContext context)
         {
-            if (!Log.IsInfoEnabled())
+            if (!IsInfoEnabled)
             {
                 return;
             }
@@ -371,7 +371,7 @@ namespace Quartz.Plugin.History
                         trigger.GetPreviousFireTimeUtc(), trigger.GetNextFireTimeUtc(), context.RefireCount
                     };
 
-            Log.Info(String.Format(CultureInfo.InvariantCulture, JobToBeFiredMessage, args));
+            WriteInfo(String.Format(CultureInfo.InvariantCulture, JobToBeFiredMessage, args));
         }
 
 
@@ -390,7 +390,7 @@ namespace Quartz.Plugin.History
 
             if (jobException != null)
             {
-                if (!Log.IsWarnEnabled())
+                if (!IsWarnEnabled)
                 {
                     return;
                 }
@@ -403,11 +403,11 @@ namespace Quartz.Plugin.History
                             trigger.GetPreviousFireTimeUtc(), trigger.GetNextFireTimeUtc(), context.RefireCount, errMsg
                         };
 
-                Log.WarnException(String.Format(CultureInfo.InvariantCulture, JobFailedMessage, args), jobException);
+                WriteWarning(String.Format(CultureInfo.InvariantCulture, JobFailedMessage, args), jobException);
             }
             else
             {
-                if (!Log.IsInfoEnabled())
+                if (!IsInfoEnabled)
                 {
                     return;
                 }
@@ -420,7 +420,7 @@ namespace Quartz.Plugin.History
                             trigger.GetPreviousFireTimeUtc(), trigger.GetNextFireTimeUtc(), context.RefireCount, result
                         };
 
-                Log.Info(String.Format(CultureInfo.InvariantCulture, JobSuccessMessage, args));
+                WriteInfo(String.Format(CultureInfo.InvariantCulture, JobSuccessMessage, args));
             }
         }
 
@@ -434,7 +434,7 @@ namespace Quartz.Plugin.History
         /// <seealso cref="JobToBeExecuted(IJobExecutionContext)"/>
         public virtual void JobExecutionVetoed(IJobExecutionContext context)
         {
-            if (!Log.IsInfoEnabled())
+            if (!IsInfoEnabled)
             {
                 return;
             }
@@ -448,7 +448,21 @@ namespace Quartz.Plugin.History
                         trigger.GetPreviousFireTimeUtc(), trigger.GetNextFireTimeUtc(), context.RefireCount
                     };
 
-            Log.Info(String.Format(CultureInfo.InvariantCulture, JobWasVetoedMessage, args));
+            WriteInfo(String.Format(CultureInfo.InvariantCulture, JobWasVetoedMessage, args));
+        }
+
+        protected virtual bool IsInfoEnabled => Log.IsInfoEnabled();
+
+        protected virtual void WriteInfo(string message)
+        {
+            Log.Info(message);
+        }
+
+        protected virtual bool IsWarnEnabled => Log.IsWarnEnabled();
+
+        protected virtual void WriteWarning(string message, Exception ex)
+        {
+            Log.WarnException(message, ex);
         }
     }
 }

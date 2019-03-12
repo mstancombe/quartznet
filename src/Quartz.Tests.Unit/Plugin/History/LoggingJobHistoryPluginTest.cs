@@ -18,6 +18,8 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 using Quartz.Logging;
 
@@ -37,68 +39,53 @@ namespace Quartz.Tests.Unit.Plugin.History
     [TestFixture]
     public class LoggingJobHistoryPluginTest
     {
-        private LoggingJobHistoryPlugin plugin;
-        private ILog mockLog;
+        private RecordingLoggingJobHistoryPlugin plugin;
 
         [SetUp]
         public void SetUp()
         {
-            mockLog = MockRepository.GenerateMock<ILog>();           
-            plugin = new LoggingJobHistoryPlugin();
-            plugin.Log = mockLog;
+            plugin = new RecordingLoggingJobHistoryPlugin();
         }
 
         [Test]
         public void TestJobFailedMessage()
         {
-            // arrange
-            mockLog.Stub(log => log.IsWarnEnabled).Return(true);
-
             // act
             JobExecutionException ex = new JobExecutionException("test error");
             plugin.JobWasExecuted(CreateJobExecutionContext(), ex);
-            
+
             // assert
-            mockLog.AssertWasCalled(log => log.Warn(Arg<string>.Is.Anything, Arg<Exception>.Is.Anything));
+            Assert.That(plugin.WarnMessages.Count, Is.EqualTo(1));
         }
 
         [Test]
         public void TestJobSuccessMessage()
         {
-            // arrange
-            mockLog.Stub(log => log.IsInfoEnabled).Return(true);
-
             // act
             plugin.JobWasExecuted(CreateJobExecutionContext(), null);
 
             // assert
-            mockLog.AssertWasCalled(log => log.Info(Arg<string>.Is.NotNull));
+            Assert.That(plugin.InfoMessages.Count, Is.EqualTo(1));
         }
 
         [Test]
         public void TestJobToBeFiredMessage()
         {
-            // arrange
-            mockLog.Stub(log => log.IsInfoEnabled).Return(true);
-
             // act
             plugin.JobToBeExecuted(CreateJobExecutionContext());
-        
+
             // assert
-            mockLog.AssertWasCalled(log => log.Info(Arg<string>.Is.NotNull));
+            Assert.That(plugin.InfoMessages.Count, Is.EqualTo(1));
         }
 
         [Test]
         public void TestJobWasVetoedMessage()
         {
-            // arrange
-            mockLog.Stub(log => log.IsInfoEnabled).Return(true);
-
             // act
             plugin.JobExecutionVetoed(CreateJobExecutionContext());
 
             // assert
-            mockLog.AssertWasCalled(log => log.Info(Arg<string>.Is.NotNull));
+            Assert.That(plugin.InfoMessages.Count, Is.EqualTo(1));
         }
 
         protected virtual IJobExecutionContext CreateJobExecutionContext()
@@ -110,5 +97,23 @@ namespace Quartz.Tests.Unit.Plugin.History
             return ctx;
         }
 
+        private class RecordingLoggingJobHistoryPlugin : LoggingJobHistoryPlugin
+        {
+            public List<string> InfoMessages { get; } = new List<string>();
+            public List<string> WarnMessages { get; } = new List<string>();
+
+            protected override bool IsInfoEnabled => true;
+            protected override bool IsWarnEnabled => true;
+
+            protected override void WriteInfo(string message)
+            {
+                InfoMessages.Add(message);
+            }
+
+            protected override void WriteWarning(string message, Exception ex)
+            {
+                WarnMessages.Add(message);
+            }
+        }
     }
 }

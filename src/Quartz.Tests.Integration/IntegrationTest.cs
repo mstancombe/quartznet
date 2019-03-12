@@ -45,9 +45,6 @@ namespace Quartz.Tests.Integration
         /// Gets the log.
         /// </summary>
         /// <value>The log.</value>
-        protected ILog Log
-        {
-            get { return log; }
-        }
+        internal ILog Log { get; }
     }
 }

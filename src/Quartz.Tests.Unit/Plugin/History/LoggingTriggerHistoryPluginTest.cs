@@ -17,7 +17,7 @@
  */
 #endregion
 
-using Quartz.Logging;
+using System.Collections.Generic;
 
 using NUnit.Framework;
 
@@ -25,6 +25,7 @@ using Quartz.Impl;
 using Quartz.Job;
 using Quartz.Plugin.History;
 using Quartz.Spi;
+using Quartz.Logging;
 
 using Rhino.Mocks;
 
@@ -34,23 +35,18 @@ namespace Quartz.Tests.Unit.Plugin.History
     [TestFixture]
     public class LoggingTriggerHistoryPluginTest
     {
-        private LoggingTriggerHistoryPlugin plugin;
-        private ILog mockLog;
+        private RecordingLoggingTriggerHistoryPlugin plugin;
 
         [SetUp]
         public void SetUp()
         {
-            mockLog = MockRepository.GenerateMock<ILog>();
-            plugin = new LoggingTriggerHistoryPlugin();
-            plugin.Log = mockLog;
+            plugin = new RecordingLoggingTriggerHistoryPlugin();
         }
 
         [Test]
         public void TestTriggerFiredMessage()
         {
             // arrange
-            mockLog.Stub(log => log.IsInfoEnabled).Return(true);
-
             ITrigger t = TriggerBuilder.Create()
                                         .WithSchedule(SimpleScheduleBuilder.Create())
                                         .Build();
@@ -64,7 +60,7 @@ namespace Quartz.Tests.Unit.Plugin.History
             plugin.TriggerFired(t, ctx);
 
             // assert
-            mockLog.AssertWasCalled(log => log.Info(Arg<string>.Is.NotNull));
+            Assert.That(plugin.InfoMessages.Count, Is.EqualTo(1));
         }
 
 
@@ -72,7 +68,6 @@ namespace Quartz.Tests.Unit.Plugin.History
         public void TestTriggerMisfiredMessage()
         {
             // arrange
-            mockLog.Stub(log => log.IsInfoEnabled).Return(true);
             IOperableTrigger t = (IOperableTrigger) TriggerBuilder.Create()
                                                         .WithSchedule(SimpleScheduleBuilder.Create())
                                                         .Build();
@@ -83,15 +78,13 @@ namespace Quartz.Tests.Unit.Plugin.History
             plugin.TriggerMisfired(t);
 
             // assert
-            mockLog.AssertWasCalled(log => log.Info(Arg<string>.Is.NotNull));
+            Assert.That(plugin.InfoMessages.Count, Is.EqualTo(1));
         }
 
         [Test]
         public void TestTriggerCompleteMessage()
         {
             // arrange
-            mockLog.Stub(log => log.IsInfoEnabled).Return(true);
-
             ITrigger t = TriggerBuilder.Create()
                                         .WithSchedule(SimpleScheduleBuilder.Create())
                                         .Build();
@@ -105,8 +98,20 @@ namespace Quartz.Tests.Unit.Plugin.History
             plugin.TriggerComplete(t, ctx, SchedulerInstruction.ReExecuteJob);
 
             // assert
-            mockLog.AssertWasCalled(log => log.Info(Arg<string>.Is.NotNull));
+            Assert.That(plugin.InfoMessages.Count, Is.EqualTo(1));
         }
-        
+
+        private class RecordingLoggingTriggerHistoryPlugin : LoggingTriggerHistoryPlugin
+        {
+            public List<string> InfoMessages { get; } = new List<string>();
+
+            protected override bool IsInfoEnabled => true;
+
+            protected override void WriteInfo(string message)
+            {
+                InfoMessages.Add(message);
+            }
+        }
+
     }
 }

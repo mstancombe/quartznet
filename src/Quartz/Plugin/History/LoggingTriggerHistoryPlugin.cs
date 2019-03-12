@@ -298,7 +298,7 @@ namespace Quartz.Plugin.History
         /// <param name="context">The <see cref="IJobExecutionContext" /> that will be passed to the <see cref="IJob" />'s <see cref="IJob.Execute" /> method.</param>
         public virtual void TriggerFired(ITrigger trigger, IJobExecutionContext context)
         {
-            if (!Log.IsInfoEnabled())
+            if (!IsInfoEnabled)
             {
                 return;
             }
@@ -310,7 +310,7 @@ namespace Quartz.Plugin.History
                         context.JobDetail.Key.Name, context.JobDetail.Key.Group, context.RefireCount
                     };
 
-            Log.Info(String.Format(CultureInfo.InvariantCulture, TriggerFiredMessage, args));
+            WriteInfo(String.Format(CultureInfo.InvariantCulture, TriggerFiredMessage, args));
         }
 
         /// <summary>
@@ -326,7 +326,7 @@ namespace Quartz.Plugin.History
         /// <param name="trigger">The <see cref="ITrigger" /> that has misfired.</param>
         public virtual void TriggerMisfired(ITrigger trigger)
         {
-            if (!Log.IsInfoEnabled())
+            if (!IsInfoEnabled)
             {
                 return;
             }
@@ -338,7 +338,7 @@ namespace Quartz.Plugin.History
                         trigger.JobKey.Name, trigger.JobKey.Group
                     };
 
-            Log.Info(String.Format(CultureInfo.InvariantCulture, TriggerMisfiredMessage, args));
+            WriteInfo(String.Format(CultureInfo.InvariantCulture, TriggerMisfiredMessage, args));
         }
 
         /// <summary>
@@ -353,7 +353,7 @@ namespace Quartz.Plugin.History
         /// <param name="triggerInstructionCode">The result of the call on the <see cref="IOperableTrigger" />'s <see cref="IOperableTrigger.Triggered" />  method.</param>
         public virtual void TriggerComplete(ITrigger trigger, IJobExecutionContext context, SchedulerInstruction triggerInstructionCode)
         {
-            if (!Log.IsInfoEnabled())
+            if (!IsInfoEnabled)
             {
                 return;
             }
@@ -387,7 +387,7 @@ namespace Quartz.Plugin.History
                         context.JobDetail.Key.Name, context.JobDetail.Key.Group, context.RefireCount, triggerInstructionCode, instrCode
                     };
 
-            Log.Info(String.Format(CultureInfo.InvariantCulture, TriggerCompleteMessage, args));
+            WriteInfo(String.Format(CultureInfo.InvariantCulture, TriggerCompleteMessage, args));
         }
 
         /// <summary>
@@ -406,6 +406,13 @@ namespace Quartz.Plugin.History
         public virtual bool VetoJobExecution(ITrigger trigger, IJobExecutionContext context)
         {
             return false;
+        }
+
+        protected virtual bool IsInfoEnabled => Log.IsInfoEnabled();
+
+        protected virtual void WriteInfo(string message)
+        {
+            Log.Info(message);
         }
     }
 }
