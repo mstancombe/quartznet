@@ -67,7 +67,7 @@ namespace Quartz.Simpl
         /// </summary>
         public RAMJobStore()
         {
-            log = LogManager.GetLogger(GetType());
+            log = LogProvider.GetLogger(GetType());
         }
 
         /// <summary> 

@@ -42,7 +42,7 @@ namespace Quartz.Examples.Example14
 
         public void Run()
         {
-            ILog log = LogManager.GetLogger(typeof (PriorityExample));
+            ILog log = LogProvider.GetLogger(typeof (PriorityExample));
 
             log.Info("------- Initializing ----------------------");
 

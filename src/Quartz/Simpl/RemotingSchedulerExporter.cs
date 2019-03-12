@@ -59,7 +59,7 @@ namespace Quartz.Simpl
             TypeFilterLevel = TypeFilterLevel.Full;
             ChannelName = DefaultChannelName;
             BindName = DefaultBindName;
-            log = LogManager.GetLogger(GetType());
+            log = LogProvider.GetLogger(GetType());
         }
 
         public virtual void Bind(IRemotableQuartzScheduler scheduler)

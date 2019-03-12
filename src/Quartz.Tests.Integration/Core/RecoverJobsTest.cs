@@ -128,7 +128,7 @@ namespace Quartz.Tests.Integration.Core
         [DisallowConcurrentExecution]
         public class RecoverJobsTestJob : IJob
         {
-            private static readonly ILog log = LogManager.GetLogger<RecoverJobsTestJob>();
+            private static readonly ILog log = LogProvider.GetLogger<RecoverJobsTestJob>();
 
             internal static bool runForever = true;
 

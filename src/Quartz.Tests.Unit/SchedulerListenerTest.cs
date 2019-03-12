@@ -17,7 +17,7 @@ namespace Quartz.Tests.Unit
     [TestFixture]
     public class SchedulerListenerTest
     {
-        private static readonly ILog logger = LogManager.GetLogger<SchedulerListenerTest>();
+        private static readonly ILog logger = LogProvider.GetLogger<SchedulerListenerTest>();
         private static int jobExecutionCount;
 
         public class Qtz205Job : IJob

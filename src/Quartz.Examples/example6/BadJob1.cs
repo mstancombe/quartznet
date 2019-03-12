@@ -33,7 +33,7 @@ namespace Quartz.Examples.Example6
     public class BadJob1 : IJob
 	{
 		// Logging
-		private static readonly ILog log = LogManager.GetLogger(typeof(BadJob1));
+		private static readonly ILog log = LogProvider.GetLogger(typeof(BadJob1));
 		
 		/// <summary>
 		/// Called by the <see cref="IScheduler" /> when a Trigger" />

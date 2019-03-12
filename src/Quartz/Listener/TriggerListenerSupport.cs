@@ -47,7 +47,7 @@ namespace Quartz.Listener
 
         protected TriggerListenerSupport()
         {
-            log = LogManager.GetLogger(GetType());
+            log = LogProvider.GetLogger(GetType());
         }
 
         /// <summary>

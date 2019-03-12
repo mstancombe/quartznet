@@ -37,7 +37,7 @@ namespace Quartz.Simpl
 	/// <author>Marko Lahma (.NET)</author>
 	public class SimpleJobFactory : IJobFactory
 	{
-		private static readonly ILog log = LogManager.GetLogger(typeof (SimpleJobFactory));
+		private static readonly ILog log = LogProvider.GetLogger(typeof (SimpleJobFactory));
 
 	    /// <summary>
 	    /// Called by the scheduler at the time of the trigger firing, in order to

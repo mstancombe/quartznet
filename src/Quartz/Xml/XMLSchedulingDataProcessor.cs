@@ -95,7 +95,7 @@ namespace Quartz.Xml
         {
             OverWriteExistingData = true;
             IgnoreDuplicates = false;
-            log = LogManager.GetLogger(GetType());
+            log = LogProvider.GetLogger(GetType());
             this.typeLoadHelper = typeLoadHelper;
         }
 

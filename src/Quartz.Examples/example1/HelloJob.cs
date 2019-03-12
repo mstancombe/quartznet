@@ -30,7 +30,7 @@ namespace Quartz.Examples.Example1
     public class HelloJob : IJob
 	{
 		
-		private static ILog _log = LogManager.GetLogger(typeof(HelloJob));
+		private static ILog _log = LogProvider.GetLogger(typeof(HelloJob));
 		
 		/// <summary> 
 		/// Empty constructor for job initialization

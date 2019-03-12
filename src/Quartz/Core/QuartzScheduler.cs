@@ -309,7 +309,7 @@ namespace Quartz.Core
         // ReSharper disable once MemberCanBePrivate.Global
         protected QuartzScheduler()
         {
-            log = LogManager.GetLogger(GetType());
+            log = LogProvider.GetLogger(GetType());
         }
 
         /// <summary>

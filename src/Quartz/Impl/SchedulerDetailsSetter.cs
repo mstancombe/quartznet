@@ -36,7 +36,7 @@ namespace Quartz.Impl
     /// <author>Marko Lahma (.NET)</author>
     internal static class SchedulerDetailsSetter
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(SchedulerDetailsSetter));
+        private static readonly ILog log = LogProvider.GetLogger(typeof(SchedulerDetailsSetter));
 
         internal static void SetDetails(object target, string schedulerName, string schedulerId)
         {

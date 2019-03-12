@@ -49,7 +49,7 @@ namespace Quartz.Simpl
         /// </summary>
         public ZeroSizeThreadPool()
         {
-            log = LogManager.GetLogger(GetType());
+            log = LogProvider.GetLogger(GetType());
         }
 
         /// <summary>

@@ -213,7 +213,7 @@ namespace Quartz.Plugin.History
         private string triggerMisfiredMessage = "Trigger {1}.{0} misfired job {6}.{5} at: {4:HH:mm:ss MM/dd/yyyy}.  Should have fired at: {3:HH:mm:ss MM/dd/yyyy}";
         private string triggerCompleteMessage = "Trigger {1}.{0} completed firing job {6}.{5} at {4:HH:mm:ss MM/dd/yyyy} with resulting trigger instruction code: {9}";
         
-        private ILog log = LogManager.GetLogger(typeof (LoggingTriggerHistoryPlugin));
+        private ILog log = LogProvider.GetLogger(typeof (LoggingTriggerHistoryPlugin));
 
         /// <summary> 
         /// Get or set the message that is printed upon the completion of a trigger's

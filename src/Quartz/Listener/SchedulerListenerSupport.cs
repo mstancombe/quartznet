@@ -37,7 +37,7 @@ namespace Quartz.Listener
 
         protected SchedulerListenerSupport()
         {
-            log = LogManager.GetLogger(GetType());
+            log = LogProvider.GetLogger(GetType());
         }
 
         public virtual void JobScheduled(ITrigger trigger)

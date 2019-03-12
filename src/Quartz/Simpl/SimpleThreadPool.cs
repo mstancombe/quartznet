@@ -44,7 +44,7 @@ namespace Quartz.Simpl
     /// <author>Marko Lahma (.NET)</author>
     public class SimpleThreadPool : IThreadPool
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(SimpleThreadPool));
+        private static readonly ILog log = LogProvider.GetLogger(typeof(SimpleThreadPool));
         private const int DefaultThreadPoolSize = 10;
 
         private readonly object nextRunnableLock = new object();

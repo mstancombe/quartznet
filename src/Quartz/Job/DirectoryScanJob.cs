@@ -46,7 +46,7 @@ namespace Quartz.Job
 
         public DirectoryScanJob()
         {
-            log = LogManager.GetLogger(GetType());
+            log = LogProvider.GetLogger(GetType());
         }
 
        /// <summary>

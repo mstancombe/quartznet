@@ -33,7 +33,7 @@ namespace Quartz.Examples.Example12
     public class SimpleJob : IJob
     {
         public const string Message = "msg";
-        private static readonly ILog log = LogManager.GetLogger(typeof (SimpleJob));
+        private static readonly ILog log = LogProvider.GetLogger(typeof (SimpleJob));
 
 
         /// <summary> 

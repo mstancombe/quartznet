@@ -44,7 +44,7 @@ namespace Quartz.Examples.Example9
 
         public virtual void Run()
         {
-            ILog log = LogManager.GetLogger(typeof (ListenerExample));
+            ILog log = LogProvider.GetLogger(typeof (ListenerExample));
 
             log.Info("------- Initializing ----------------------");
 

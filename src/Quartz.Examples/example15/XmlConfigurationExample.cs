@@ -41,7 +41,7 @@ namespace Quartz.Examples.Example15
 
         public void Run()
         {
-            ILog log = LogManager.GetLogger(typeof(XmlConfigurationExample));
+            ILog log = LogProvider.GetLogger(typeof(XmlConfigurationExample));
 
             log.Info("------- Initializing ----------------------");
 

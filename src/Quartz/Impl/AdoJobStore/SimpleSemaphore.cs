@@ -46,7 +46,7 @@ namespace Quartz.Impl.AdoJobStore
 
 	    public SimpleSemaphore()
 	    {
-	        log = LogManager.GetLogger(GetType());
+	        log = LogProvider.GetLogger(GetType());
 	    }
 
 

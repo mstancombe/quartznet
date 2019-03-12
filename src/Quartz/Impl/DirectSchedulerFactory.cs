@@ -106,7 +106,7 @@ namespace Quartz.Impl
         /// </summary>
 		protected DirectSchedulerFactory()
 		{
-		    log = LogManager.GetLogger(GetType());
+		    log = LogProvider.GetLogger(GetType());
 		}
 
 		/// <summary>

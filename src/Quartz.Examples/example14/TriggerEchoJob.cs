@@ -28,7 +28,7 @@ namespace Quartz.Examples.Example14
     /// <author>Marko Lahma (.NET)</author>
     public class TriggerEchoJob : IJob
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof (TriggerEchoJob));
+        private static readonly ILog log = LogProvider.GetLogger(typeof (TriggerEchoJob));
 
         /// <summary>
         /// Called by the <see cref="IScheduler"/> when a <see cref="ITrigger"/>

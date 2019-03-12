@@ -40,7 +40,7 @@ namespace Quartz.Examples.Example11
 
 		public virtual void Run()
 		{
-			ILog log = LogManager.GetLogger(typeof (LoadExample));
+			ILog log = LogProvider.GetLogger(typeof (LoadExample));
 
 			// First we must get a reference to a scheduler
 			ISchedulerFactory sf = new StdSchedulerFactory();

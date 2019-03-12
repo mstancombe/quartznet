@@ -30,7 +30,7 @@ namespace Quartz.Examples.Example11
     /// <author>Marko Lahma (.NET)</author>
     public class SimpleJob : IJob
 	{
-		private static readonly ILog log = LogManager.GetLogger(typeof (SimpleJob));
+		private static readonly ILog log = LogProvider.GetLogger(typeof (SimpleJob));
 		// job parameter
 		public const string DelayTime = "delay time";
 

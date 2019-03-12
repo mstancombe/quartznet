@@ -109,7 +109,7 @@ namespace Quartz.Core
         internal QuartzSchedulerThread(QuartzScheduler qs, QuartzSchedulerResources qsRsrcs, 
                                        bool setDaemon, int threadPrio) : base(qsRsrcs.ThreadName)
         {
-            log = LogManager.GetLogger(GetType());
+            log = LogProvider.GetLogger(GetType());
             //ThreadGroup generatedAux = qs.SchedulerThreadGroup;
             this.qs = qs;
             this.qsRsrcs = qsRsrcs;

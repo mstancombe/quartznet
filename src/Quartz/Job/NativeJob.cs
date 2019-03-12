@@ -93,7 +93,7 @@ namespace Quartz.Job
         /// </summary>
 	    public NativeJob()
 	    {
-            log = LogManager.GetLogger(typeof(NativeJob));
+            log = LogProvider.GetLogger(typeof(NativeJob));
 	    }
 
 		/// <summary>

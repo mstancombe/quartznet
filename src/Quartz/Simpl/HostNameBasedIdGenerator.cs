@@ -38,7 +38,7 @@ namespace Quartz.Simpl
 
         protected HostNameBasedIdGenerator()
         {
-            logger = LogManager.GetLogger(GetType());
+            logger = LogProvider.GetLogger(GetType());
         }
 
         /// <summary>

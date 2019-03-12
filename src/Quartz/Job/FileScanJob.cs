@@ -72,7 +72,7 @@ namespace Quartz.Job
         /// </summary>
 	    public FileScanJob()
 	    {
-	        log = LogManager.GetLogger(typeof (FileScanJob));
+	        log = LogProvider.GetLogger(typeof (FileScanJob));
 	    }
 
 	    /// <summary>

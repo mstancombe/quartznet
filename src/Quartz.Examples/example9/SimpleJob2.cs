@@ -28,7 +28,7 @@ namespace Quartz.Examples.Example9
     /// <author>Marko Lahma (.NET)</author>
     public class SimpleJob2 : IJob
 	{
-		private static readonly ILog log = LogManager.GetLogger(typeof(SimpleJob2));
+		private static readonly ILog log = LogProvider.GetLogger(typeof(SimpleJob2));
 		
 		public virtual void Execute(IJobExecutionContext context)
 		{

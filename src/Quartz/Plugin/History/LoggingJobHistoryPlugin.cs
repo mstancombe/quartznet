@@ -262,7 +262,7 @@ namespace Quartz.Plugin.History
         private string jobWasVetoedMessage =
             "Job {1}.{0} was vetoed.  It was to be fired (by trigger {4}.{3}) at: {2:HH:mm:ss MM/dd/yyyy}";
 
-        private ILog log = LogManager.GetLogger(typeof (LoggingJobHistoryPlugin));
+        private ILog log = LogProvider.GetLogger(typeof (LoggingJobHistoryPlugin));
 
         /// <summary> 
         /// Get or sets the message that is logged when a Job successfully completes its 

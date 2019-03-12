@@ -8,7 +8,7 @@ namespace Quartz.Util
 {
     public static class TimeZoneUtil
     {
-        private static readonly ILog logger = LogManager.GetLogger(typeof (TimeZoneUtil));
+        private static readonly ILog logger = LogProvider.GetLogger(typeof (TimeZoneUtil));
         private static readonly Dictionary<string, string> timeZoneIdAliases = new Dictionary<string, string>();
 
         static TimeZoneUtil()

@@ -71,7 +71,7 @@ namespace Quartz.Examples.Example13
     /// <author>Marko Lahma (.NET)</author>
     public class ClusterExample : IExample
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof (ClusterExample));
+        private static readonly ILog log = LogProvider.GetLogger(typeof (ClusterExample));
 
         public virtual void Run(bool inClearJobs, bool inScheduleJobs)
         {

@@ -43,7 +43,7 @@ namespace Quartz.Examples.Example12
 		/// </author>
 		public virtual void Run()
 		{
-			ILog log = LogManager.GetLogger(typeof(RemoteServerExample));
+			ILog log = LogProvider.GetLogger(typeof(RemoteServerExample));
 			
             NameValueCollection properties = new NameValueCollection();
             properties["quartz.scheduler.instanceName"] = "RemoteServer";

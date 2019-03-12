@@ -79,7 +79,7 @@ namespace Quartz.Plugin.Xml
         /// </summary>
         public XMLSchedulingDataProcessorPlugin()
         {
-            log = LogManager.GetLogger(typeof (XMLSchedulingDataProcessorPlugin));
+            log = LogProvider.GetLogger(typeof (XMLSchedulingDataProcessorPlugin));
         }
 
 

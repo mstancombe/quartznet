@@ -54,7 +54,7 @@ namespace Quartz.Simpl
 	/// <author>Marko Lahma (.NET)</author>
 	public class PropertySettingJobFactory : SimpleJobFactory
 	{
-	    private static readonly ILog log = LogManager.GetLogger(typeof(PropertySettingJobFactory));
+	    private static readonly ILog log = LogProvider.GetLogger(typeof(PropertySettingJobFactory));
 
 	    /// <summary> 
 	    /// Whether the JobInstantiation should fail and throw and exception if

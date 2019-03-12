@@ -87,7 +87,7 @@ namespace Quartz.Impl.AdoJobStore
             ClusterCheckinInterval = TimeSpan.FromMilliseconds(7500);
             MaxMisfiresToHandleAtATime = 20;
             DbRetryInterval = TimeSpan.FromSeconds(15);
-            log = LogManager.GetLogger(GetType());
+            log = LogProvider.GetLogger(GetType());
             delegateType = typeof(StdAdoDelegate);
         }
 

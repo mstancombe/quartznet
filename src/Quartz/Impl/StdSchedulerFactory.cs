@@ -132,7 +132,7 @@ namespace Quartz.Impl
 
         private PropertiesParser cfg;
 
-        private static readonly ILog log = LogManager.GetLogger(typeof (StdSchedulerFactory));
+        private static readonly ILog log = LogProvider.GetLogger(typeof (StdSchedulerFactory));
 
         private string SchedulerName
         {

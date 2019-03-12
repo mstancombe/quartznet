@@ -67,7 +67,7 @@ namespace Quartz.Core
 		{
 			this.scheduler = scheduler;
             firedTriggerBundle = bundle;
-            log = LogManager.GetLogger(GetType());
+            log = LogProvider.GetLogger(GetType());
 		}
 
         public override void SchedulerShuttingdown()
