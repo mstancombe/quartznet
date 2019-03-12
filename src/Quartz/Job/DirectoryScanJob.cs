@@ -127,7 +127,7 @@ namespace Quartz.Job
                 log.Info("Directory '" + dirName + "' contents updated, notifying listener.");
                 listener.FilesUpdatedOrAdded(updatedFiles);
             }
-            else if (log.IsDebugEnabled)
+            else if (log.IsDebugEnabled())
             {
                 log.Debug("Directory '" + dirName + "' contents unchanged.");
             }

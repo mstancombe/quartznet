@@ -79,12 +79,12 @@ namespace Quartz.Impl.AdoJobStore
 			{
 				lockName = String.Intern(lockName);
 
-				if (log.IsDebugEnabled)
+				if (log.IsDebugEnabled())
 					log.Debug("Lock '" + lockName + "' is desired by: " + Thread.CurrentThread.Name);
 
 				if (!IsLockOwner(lockName))
 				{
-					if (log.IsDebugEnabled)
+					if (log.IsDebugEnabled())
 					{
 						log.Debug("Lock '" + lockName + "' is being obtained: " + Thread.CurrentThread.Name);
 					}
@@ -97,23 +97,23 @@ namespace Quartz.Impl.AdoJobStore
 						}
 						catch (ThreadInterruptedException)
 						{
-							if (log.IsDebugEnabled)
+							if (log.IsDebugEnabled())
 							{
 								log.Debug("Lock '" + lockName + "' was not obtained by: " + Thread.CurrentThread.Name);
 							}
 						}
 					}
 
-					if (log.IsDebugEnabled)
+					if (log.IsDebugEnabled())
 					{
 						log.Debug(string.Format(CultureInfo.InvariantCulture, "Lock '{0}' given to: {1}", lockName, Thread.CurrentThread.Name));
 					}
 					ThreadLocks.Add(lockName);
 					locks.Add(lockName);
 				}
-				else if (log.IsDebugEnabled)
+				else if (log.IsDebugEnabled())
 				{
-					log.Debug(string.Format(CultureInfo.InvariantCulture, "Lock '{0}' already owned by: {1} -- but not owner!", lockName, Thread.CurrentThread.Name), new Exception("stack-trace of wrongful returner"));
+					log.DebugException(string.Format(CultureInfo.InvariantCulture, "Lock '{0}' already owned by: {1} -- but not owner!", lockName, Thread.CurrentThread.Name), new Exception("stack-trace of wrongful returner"));
 				}
 
 				return true;
@@ -131,7 +131,7 @@ namespace Quartz.Impl.AdoJobStore
 
 				if (IsLockOwner(lockName))
 				{
-					if (log.IsDebugEnabled)
+					if (log.IsDebugEnabled())
 					{
 						log.Debug(string.Format(CultureInfo.InvariantCulture, "Lock '{0}' returned by: {1}", lockName, Thread.CurrentThread.Name));
 					}
@@ -139,9 +139,9 @@ namespace Quartz.Impl.AdoJobStore
 					locks.Remove(lockName);
 					Monitor.PulseAll(this);
 				}
-				else if (log.IsDebugEnabled)
+				else if (log.IsDebugEnabled())
 				{
-					log.Debug(string.Format(CultureInfo.InvariantCulture, "Lock '{0}' attempt to return by: {1} -- but not owner!", lockName, Thread.CurrentThread.Name), new Exception("stack-trace of wrongful returner"));
+					log.DebugException(string.Format(CultureInfo.InvariantCulture, "Lock '{0}' attempt to return by: {1} -- but not owner!", lockName, Thread.CurrentThread.Name), new Exception("stack-trace of wrongful returner"));
 				}
 			}
 		}

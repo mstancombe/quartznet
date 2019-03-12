@@ -222,7 +222,7 @@ namespace Quartz.Simpl
                             LinkedListNode<WorkerThread> wt = busyWorkers.First;
                             try
                             {
-                                log.DebugFormat(CultureInfo.InvariantCulture, "Waiting for thread {0} to shut down", wt.Value.Name);
+                                log.DebugFormat("Waiting for thread {0} to shut down", wt.Value.Name);
 
                                 // note: with waiting infinite time the
                                 // application may appear to 'hang'.
@@ -489,7 +489,7 @@ namespace Quartz.Simpl
                     }
                     catch (Exception exceptionInRunnable)
                     {
-                        log.Error("Error while executing the Runnable: ", exceptionInRunnable);
+                        log.ErrorException("Error while executing the Runnable: ", exceptionInRunnable);
                     }
                     finally
                     {

@@ -108,7 +108,7 @@ namespace Quartz.Simpl
         public virtual void Initialize(ITypeLoadHelper loadHelper, ISchedulerSignaler s)
         {
             signaler = s;
-            Log.Info("RAMJobStore initialized.");
+            log.Info("RAMJobStore initialized.");
         }
 
         /// <summary>
@@ -1790,13 +1790,13 @@ namespace Quartz.Simpl
                     }
                     else if (triggerInstCode == SchedulerInstruction.SetTriggerError)
                     {
-                        Log.Info(string.Format(CultureInfo.InvariantCulture, "Trigger {0} set to ERROR state.", trigger.Key));
+                        log.Info(string.Format(CultureInfo.InvariantCulture, "Trigger {0} set to ERROR state.", trigger.Key));
                         tw.state = InternalTriggerState.Error;
                         signaler.SignalSchedulingChange(null);
                     }
                     else if (triggerInstCode == SchedulerInstruction.SetAllJobTriggersError)
                     {
-                        Log.Info(string.Format(CultureInfo.InvariantCulture, "All triggers of Job {0} set to ERROR state.", trigger.JobKey));
+                        log.Info(string.Format(CultureInfo.InvariantCulture, "All triggers of Job {0} set to ERROR state.", trigger.JobKey));
                         SetAllTriggersOfJobToState(trigger.JobKey, InternalTriggerState.Error);
                         signaler.SignalSchedulingChange(null);
                     }

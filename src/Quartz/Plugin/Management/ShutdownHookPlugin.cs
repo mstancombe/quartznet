@@ -58,7 +58,7 @@ namespace Quartz.Plugin.Management
         /// </summary>
         public virtual void Initialize(string pluginName, IScheduler scheduler)
         {
-            log.InfoFormat(CultureInfo.InvariantCulture, "Registering Quartz Shutdown hook '{0}.", pluginName);
+            log.InfoFormat("Registering Quartz Shutdown hook '{0}.", pluginName);
 
             AppDomain.CurrentDomain.ProcessExit += (sender, ea) =>
                                             {
@@ -69,7 +69,7 @@ namespace Quartz.Plugin.Management
                                                 }
                                                 catch (SchedulerException e)
                                                 {
-                                                    log.Info("Error shutting down Quartz: " + e.Message, e);
+                                                    log.InfoException("Error shutting down Quartz: " + e.Message, e);
                                                 }
                                             };
         }

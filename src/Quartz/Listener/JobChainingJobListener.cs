@@ -21,6 +21,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 
+using Quartz.Logging;
+
 namespace Quartz.Listener
 {
     /// <summary>
@@ -49,6 +51,7 @@ namespace Quartz.Listener
     {
         private readonly string name;
         private readonly IDictionary<JobKey, JobKey> chainLinks;
+        private readonly ILog log;
 
         /// <summary>
         /// Construct an instance with the given name.
@@ -62,6 +65,7 @@ namespace Quartz.Listener
             }
             this.name = name;
             chainLinks = new Dictionary<JobKey, JobKey>();
+            log = LogProvider.GetLogger(typeof(JobChainingJobListener));
         }
 
         public override string Name
@@ -99,7 +103,7 @@ namespace Quartz.Listener
                 return;
             }
 
-            Log.Info(string.Format(CultureInfo.InvariantCulture, "Job '{0}' will now chain to Job '{1}'", context.JobDetail.Key, sj));
+            log.Info(string.Format(CultureInfo.InvariantCulture, "Job '{0}' will now chain to Job '{1}'", context.JobDetail.Key, sj));
 
             try
             {
@@ -107,7 +111,7 @@ namespace Quartz.Listener
             }
             catch (SchedulerException se)
             {
-                Log.Error(string.Format(CultureInfo.InvariantCulture, "Error encountered during chaining to Job '{0}'", sj), se);
+                log.ErrorException(string.Format(CultureInfo.InvariantCulture, "Error encountered during chaining to Job '{0}'", sj), se);
             }
         }
     }

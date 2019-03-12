@@ -72,7 +72,6 @@ namespace Quartz.Impl
 	/// <seealso cref="ThreadPool" />
 	public class DirectSchedulerFactory : ISchedulerFactory
 	{
-		private readonly ILog log;
         public const string DefaultInstanceId = "SIMPLE_NON_CLUSTERED";
         public const string DefaultSchedulerName = "SimpleQuartzScheduler";
         private static readonly DefaultThreadExecutor DefaultThreadExecutor = new DefaultThreadExecutor();
@@ -82,11 +81,17 @@ namespace Quartz.Impl
         private bool initialized;
         private static readonly DirectSchedulerFactory instance = new DirectSchedulerFactory();
 
-	    /// <summary>
-		/// Gets the instance.
-		/// </summary>
-		/// <value>The instance.</value>
-		public static DirectSchedulerFactory Instance
+        /// <summary>
+        /// Gets the log.
+        /// </summary>
+        /// <value>The log.</value>
+        private ILog Log { get; }
+
+        /// <summary>
+        /// Gets the instance.
+        /// </summary>
+        /// <value>The instance.</value>
+        public static DirectSchedulerFactory Instance
 		{
 			get { return instance; }
 		}
@@ -106,7 +111,7 @@ namespace Quartz.Impl
         /// </summary>
 		protected DirectSchedulerFactory()
 		{
-		    log = LogProvider.GetLogger(GetType());
+		    Log = LogProvider.GetLogger(GetType());
 		}
 
 		/// <summary>

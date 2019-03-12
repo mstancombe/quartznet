@@ -103,7 +103,7 @@ namespace Quartz.Simpl
         /// <param name="waitForJobsToComplete"></param>
         public virtual void Shutdown(bool waitForJobsToComplete)
         {
-            Log.Debug("shutdown complete");
+            log.Debug("shutdown complete");
         }
 
         /// <summary>

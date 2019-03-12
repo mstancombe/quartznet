@@ -58,7 +58,7 @@ namespace Quartz.Core
 			}
 			catch (SchedulerException se)
 			{
-				log.Error("Error notifying listeners of trigger misfire.", se);
+				log.ErrorException("Error notifying listeners of trigger misfire.", se);
 				sched.NotifySchedulerListenersError("Error notifying listeners of trigger misfire.", se);
 			}
 		}

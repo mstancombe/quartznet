@@ -46,8 +46,6 @@ namespace Quartz.Job
     /// <author>Marko Lahma (.NET)</author>
     public class NativeJob : IJob
 	{
-	    private readonly ILog log;
-
 		/// <summary> 
 		/// Required parameter that specifies the name of the command (executable) 
 		/// to be ran.
@@ -88,12 +86,19 @@ namespace Quartz.Job
 	    private const string StreamTypeStandardOutput = "stdout";
 	    private const string StreamTypeError = "stderr";
 
+
+        /// <summary>
+        /// Gets the log.
+        /// </summary>
+        /// <value>The log.</value>
+        private ILog Log { get; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="NativeJob"/> class.
         /// </summary>
 	    public NativeJob()
 	    {
-            log = LogProvider.GetLogger(typeof(NativeJob));
+            Log = LogProvider.GetLogger(typeof(NativeJob));
 	    }
 
 		/// <summary>
@@ -280,7 +285,7 @@ namespace Quartz.Job
 			    }
 				catch (IOException ioe)
 				{
-					enclosingInstance.Log.Error(string.Format(CultureInfo.InvariantCulture, "Error consuming {0} stream of spawned process.", type), ioe);
+					enclosingInstance.Log.ErrorException(string.Format(CultureInfo.InvariantCulture, "Error consuming {0} stream of spawned process.", type), ioe);
 				}
 			}
 		}

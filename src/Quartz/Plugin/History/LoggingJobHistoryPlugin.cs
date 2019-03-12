@@ -262,7 +262,10 @@ namespace Quartz.Plugin.History
         private string jobWasVetoedMessage =
             "Job {1}.{0} was vetoed.  It was to be fired (by trigger {4}.{3}) at: {2:HH:mm:ss MM/dd/yyyy}";
 
-        private ILog log = LogProvider.GetLogger(typeof (LoggingJobHistoryPlugin));
+        /// <summary>
+        /// Logger instance to use. Defaults to common logging.
+        /// </summary>
+        private ILog Log { get; set; } = LogProvider.GetLogger(typeof(LoggingJobHistoryPlugin));
 
         /// <summary> 
         /// Get or sets the message that is logged when a Job successfully completes its 
@@ -354,7 +357,7 @@ namespace Quartz.Plugin.History
         /// <seealso cref="JobExecutionVetoed(IJobExecutionContext)"/>
         public virtual void JobToBeExecuted(IJobExecutionContext context)
         {
-            if (!Log.IsInfoEnabled)
+            if (!Log.IsInfoEnabled())
             {
                 return;
             }
@@ -387,7 +390,7 @@ namespace Quartz.Plugin.History
 
             if (jobException != null)
             {
-                if (!Log.IsWarnEnabled)
+                if (!Log.IsWarnEnabled())
                 {
                     return;
                 }
@@ -400,11 +403,11 @@ namespace Quartz.Plugin.History
                             trigger.GetPreviousFireTimeUtc(), trigger.GetNextFireTimeUtc(), context.RefireCount, errMsg
                         };
 
-                Log.Warn(String.Format(CultureInfo.InvariantCulture, JobFailedMessage, args), jobException);
+                Log.WarnException(String.Format(CultureInfo.InvariantCulture, JobFailedMessage, args), jobException);
             }
             else
             {
-                if (!Log.IsInfoEnabled)
+                if (!Log.IsInfoEnabled())
                 {
                     return;
                 }
@@ -431,7 +434,7 @@ namespace Quartz.Plugin.History
         /// <seealso cref="JobToBeExecuted(IJobExecutionContext)"/>
         public virtual void JobExecutionVetoed(IJobExecutionContext context)
         {
-            if (!Log.IsInfoEnabled)
+            if (!Log.IsInfoEnabled())
             {
                 return;
             }

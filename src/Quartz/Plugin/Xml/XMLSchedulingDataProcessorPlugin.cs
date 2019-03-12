@@ -166,7 +166,7 @@ namespace Quartz.Plugin.Xml
             typeLoadHelper = new SimpleTypeLoadHelper();
             typeLoadHelper.Initialize();
 
-            Log.Info("Registering Quartz Job Initialization Plug-in.");
+            log.Info("Registering Quartz Job Initialization Plug-in.");
 
             // Create JobFile objects
             var tokens = fileNames.Split(FileNameDelimiter).Select(x => x.TrimStart());
@@ -226,7 +226,7 @@ namespace Quartz.Plugin.Xml
                             job.JobDataMap.Put(FileScanJob.FileScanListenerName, JobInitializationPluginName + '_' + Name);
 
                             scheduler.ScheduleJob(job, trig);
-                            Log.DebugFormat("Scheduled file scan job for data file: {0}, at interval: {1}", jobFile.FileName, scanInterval);
+                            log.DebugFormat("Scheduled file scan job for data file: {0}, at interval: {1}", jobFile.FileName, scanInterval);
                         }
 
                         ProcessFile(jobFile);
@@ -239,7 +239,7 @@ namespace Quartz.Plugin.Xml
                 {
                     throw;
                 }
-                Log.Error("Error starting background-task for watching jobs file.", se);
+                log.ErrorException("Error starting background-task for watching jobs file.", se);
             }
             finally
             {
@@ -331,7 +331,7 @@ namespace Quartz.Plugin.Xml
                 }
                 else
                 {
-                    Log.Error(message, e);
+                    log.ErrorException(message, e);
                 }
             }
         }
@@ -442,7 +442,7 @@ namespace Quartz.Plugin.Xml
                         }
                         else
                         {
-                            plugin.Log.Warn(string.Format(CultureInfo.InvariantCulture, "File named '{0}' does not exist.", FileName));
+                            plugin.log.Warn(string.Format(CultureInfo.InvariantCulture, "File named '{0}' does not exist.", FileName));
                         }
                     }
                     else
@@ -463,7 +463,7 @@ namespace Quartz.Plugin.Xml
                     }
                     catch (IOException ioe)
                     {
-                        plugin.Log.Warn("Error closing jobs file " + FileName, ioe);
+                        plugin.log.WarnException("Error closing jobs file " + FileName, ioe);
                     }
                 }
             }

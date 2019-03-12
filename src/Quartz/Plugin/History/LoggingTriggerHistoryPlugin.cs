@@ -212,8 +212,11 @@ namespace Quartz.Plugin.History
         private string triggerFiredMessage = "Trigger {1}.{0} fired job {6}.{5} at: {4:HH:mm:ss MM/dd/yyyy}";
         private string triggerMisfiredMessage = "Trigger {1}.{0} misfired job {6}.{5} at: {4:HH:mm:ss MM/dd/yyyy}.  Should have fired at: {3:HH:mm:ss MM/dd/yyyy}";
         private string triggerCompleteMessage = "Trigger {1}.{0} completed firing job {6}.{5} at {4:HH:mm:ss MM/dd/yyyy} with resulting trigger instruction code: {9}";
-        
-        private ILog log = LogProvider.GetLogger(typeof (LoggingTriggerHistoryPlugin));
+
+        /// <summary>
+        /// Logger instance to use. Defaults to common logging.
+        /// </summary>
+        private ILog Log { get; set; } = LogProvider.GetLogger(typeof(LoggingJobHistoryPlugin));
 
         /// <summary> 
         /// Get or set the message that is printed upon the completion of a trigger's
@@ -295,7 +298,7 @@ namespace Quartz.Plugin.History
         /// <param name="context">The <see cref="IJobExecutionContext" /> that will be passed to the <see cref="IJob" />'s <see cref="IJob.Execute" /> method.</param>
         public virtual void TriggerFired(ITrigger trigger, IJobExecutionContext context)
         {
-            if (!Log.IsInfoEnabled)
+            if (!Log.IsInfoEnabled())
             {
                 return;
             }
@@ -323,7 +326,7 @@ namespace Quartz.Plugin.History
         /// <param name="trigger">The <see cref="ITrigger" /> that has misfired.</param>
         public virtual void TriggerMisfired(ITrigger trigger)
         {
-            if (!Log.IsInfoEnabled)
+            if (!Log.IsInfoEnabled())
             {
                 return;
             }
@@ -350,7 +353,7 @@ namespace Quartz.Plugin.History
         /// <param name="triggerInstructionCode">The result of the call on the <see cref="IOperableTrigger" />'s <see cref="IOperableTrigger.Triggered" />  method.</param>
         public virtual void TriggerComplete(ITrigger trigger, IJobExecutionContext context, SchedulerInstruction triggerInstructionCode)
         {
-            if (!Log.IsInfoEnabled)
+            if (!Log.IsInfoEnabled())
             {
                 return;
             }

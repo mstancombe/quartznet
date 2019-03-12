@@ -21,6 +21,7 @@ using System;
 using System.Data;
 using System.Data.SqlClient;
 
+using Quartz.Logging;
 using Quartz.Spi;
 
 namespace Quartz.Impl.AdoJobStore
@@ -81,7 +82,7 @@ namespace Quartz.Impl.AdoJobStore
             }
             catch (SqlException sqle)
             {
-                Log.Warn("Database connection shutdown unsuccessful.", sqle);
+                Log.WarnException("Database connection shutdown unsuccessful.", sqle);
             }
         }
 

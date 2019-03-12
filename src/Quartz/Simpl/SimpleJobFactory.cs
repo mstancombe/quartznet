@@ -63,7 +63,7 @@ namespace Quartz.Simpl
 			Type jobType = jobDetail.JobType;
 			try
 			{
-				if (log.IsDebugEnabled)
+				if (log.IsDebugEnabled())
 				{
 					log.Debug(string.Format(CultureInfo.InvariantCulture, "Producing instance of Job '{0}', class={1}", jobDetail.Key, jobType.FullName));
 				}

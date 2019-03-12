@@ -50,7 +50,6 @@ namespace Quartz.Simpl
         /// </summary>
         private static string[] formatProviderAllowedProperties = new string[] { "includeVersions", "strictBinding", "typeFilterLevel" };
 
-        private readonly ILog log;
         private static readonly Dictionary<string, object> registeredChannels = new Dictionary<string, object>();
 
         public RemotingSchedulerExporter()
@@ -59,7 +58,7 @@ namespace Quartz.Simpl
             TypeFilterLevel = TypeFilterLevel.Full;
             ChannelName = DefaultChannelName;
             BindName = DefaultBindName;
-            log = LogProvider.GetLogger(GetType());
+            Log = LogProvider.GetLogger(GetType());
         }
 
         public virtual void Bind(IRemotableQuartzScheduler scheduler)
@@ -82,15 +81,15 @@ namespace Quartz.Simpl
             }
             catch (RemotingException ex)
             {
-                Log.Error("RemotingException during Bind", ex);
+                Log.ErrorException("RemotingException during Bind", ex);
             }
             catch (SecurityException ex)
             {
-                Log.Error("SecurityException during Bind", ex);
+                Log.ErrorException("SecurityException during Bind", ex);
             }
             catch (Exception ex)
             {
-                Log.Error("Exception during Bind", ex);
+                Log.ErrorException("Exception during Bind", ex);
             }
         }
 
@@ -148,7 +147,7 @@ namespace Quartz.Simpl
             }
             else
             {
-                log.Error("Cannot register remoting if port or channel type not specified");
+                Log.Error("Cannot register remoting if port or channel type not specified");
             }
         }
 
@@ -202,17 +201,19 @@ namespace Quartz.Simpl
             }
             catch (ArgumentException ex)
             {
-                Log.Error("ArgumentException during Unbind", ex);
+                Log.ErrorException("ArgumentException during Unbind", ex);
             }
             catch (SecurityException ex)
             {
-                Log.Error("SecurityException during Unbind", ex);
+                Log.ErrorException("SecurityException during Unbind", ex);
             }
             catch (Exception ex)
             {
-                Log.Error("Exception during Unbind", ex);
+                Log.ErrorException("Exception during Unbind", ex);
             }
         }
+
+        internal ILog Log { get; }
 
         /// <summary>
         /// Gets or sets the port used for remoting.

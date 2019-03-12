@@ -1,9 +1,9 @@
-﻿//===============================================================================
+//===============================================================================
 // LibLog
 //
 // https://github.com/damianh/LibLog
 //===============================================================================
-// Copyright © 2011-2017 Damian Hickey.  All rights reserved.
+// Copyright Â© 2011-2015 Damian Hickey.  All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,7 @@
 // this can have unintended consequences of consumers of your library using your library to resolve a logger. If the
 // reason is because you want to open this functionality to other projects within your solution,
 // consider [InternalsVisibleTo] instead.
-//
+// 
 // Define LIBLOG_PROVIDERS_ONLY if your library provides its own logging API and you just want to use the
 // LibLog providers internally to provide built in support for popular logging frameworks.
 
@@ -71,7 +71,7 @@ namespace Quartz.Logging
 #else
     public
 #endif
-        delegate bool Logger(LogLevel logLevel, Func<string> messageFunc, Exception exception = null, params object[] formatParameters);
+    delegate bool Logger(LogLevel logLevel, Func<string> messageFunc, Exception exception = null, params object[] formatParameters);
 
 #if !LIBLOG_PROVIDERS_ONLY
     /// <summary>
@@ -82,7 +82,7 @@ namespace Quartz.Logging
 #else
     internal
 #endif
-        interface ILog
+    interface ILog
     {
         /// <summary>
         /// Log a message the specified log level.
@@ -95,10 +95,10 @@ namespace Quartz.Logging
         /// <remarks>
         /// Note to implementers: the message func should not be called if the loglevel is not enabled
         /// so as not to incur performance penalties.
-        ///
+        /// 
         /// To check IsEnabled call Log with only LogLevel and check the return value, no event will be written.
         /// </remarks>
-        bool Log(LogLevel logLevel, Func<string> messageFunc, Exception exception = null, params object[] formatParameters);
+        bool Log(LogLevel logLevel, Func<string> messageFunc, Exception exception = null, params object[] formatParameters );
     }
 #endif
 
@@ -110,7 +110,7 @@ namespace Quartz.Logging
 #else
     public
 #endif
-        enum LogLevel
+    enum LogLevel
     {
         Trace,
         Debug,
@@ -126,7 +126,7 @@ namespace Quartz.Logging
 #else
     internal
 #endif
-        static partial class LogExtensions
+    static partial class LogExtensions
     {
         public static bool IsDebugEnabled(this ILog logger)
         {
@@ -167,7 +167,7 @@ namespace Quartz.Logging
         public static void Debug(this ILog logger, Func<string> messageFunc)
         {
             GuardAgainstNullLogger(logger);
-            logger.Log(LogLevel.Debug, WrapLogInternal(messageFunc));
+            logger.Log(LogLevel.Debug, messageFunc);
         }
 
         public static void Debug(this ILog logger, string message)
@@ -205,7 +205,7 @@ namespace Quartz.Logging
         public static void Error(this ILog logger, Func<string> messageFunc)
         {
             GuardAgainstNullLogger(logger);
-            logger.Log(LogLevel.Error, WrapLogInternal(messageFunc));
+            logger.Log(LogLevel.Error, messageFunc);
         }
 
         public static void Error(this ILog logger, string message)
@@ -234,7 +234,7 @@ namespace Quartz.Logging
 
         public static void Fatal(this ILog logger, Func<string> messageFunc)
         {
-            logger.Log(LogLevel.Fatal, WrapLogInternal(messageFunc));
+            logger.Log(LogLevel.Fatal, messageFunc);
         }
 
         public static void Fatal(this ILog logger, string message)
@@ -264,7 +264,7 @@ namespace Quartz.Logging
         public static void Info(this ILog logger, Func<string> messageFunc)
         {
             GuardAgainstNullLogger(logger);
-            logger.Log(LogLevel.Info, WrapLogInternal(messageFunc));
+            logger.Log(LogLevel.Info, messageFunc);
         }
 
         public static void Info(this ILog logger, string message)
@@ -294,7 +294,7 @@ namespace Quartz.Logging
         public static void Trace(this ILog logger, Func<string> messageFunc)
         {
             GuardAgainstNullLogger(logger);
-            logger.Log(LogLevel.Trace, WrapLogInternal(messageFunc));
+            logger.Log(LogLevel.Trace, messageFunc);
         }
 
         public static void Trace(this ILog logger, string message)
@@ -324,7 +324,7 @@ namespace Quartz.Logging
         public static void Warn(this ILog logger, Func<string> messageFunc)
         {
             GuardAgainstNullLogger(logger);
-            logger.Log(LogLevel.Warn, WrapLogInternal(messageFunc));
+            logger.Log(LogLevel.Warn, messageFunc);
         }
 
         public static void Warn(this ILog logger, string message)
@@ -375,34 +375,6 @@ namespace Quartz.Logging
         {
             return value;
         }
-
-        // Allow passing callsite-logger-type to LogProviderBase using messageFunc
-        internal static Func<string> WrapLogSafeInternal(LoggerExecutionWrapper logger, Func<string> messageFunc)
-        {
-            Func<string> wrappedMessageFunc = () =>
-            {
-                try
-                {
-                    return messageFunc();
-                }
-                catch (Exception ex)
-                {
-                    logger.WrappedLogger(LogLevel.Error, () => LoggerExecutionWrapper.FailedToGenerateLogMessage, ex);
-                }
-                return null;
-            };
-            return wrappedMessageFunc;
-        }
-
-        // Allow passing callsite-logger-type to LogProviderBase using messageFunc
-        private static Func<string> WrapLogInternal(Func<string> messageFunc)
-        {
-            Func<string> wrappedMessageFunc = () =>
-            {
-                return messageFunc();
-            };
-            return wrappedMessageFunc;
-        }
     }
 #endif
 
@@ -414,7 +386,7 @@ namespace Quartz.Logging
 #else
     public
 #endif
-        interface ILogProvider
+    interface ILogProvider
     {
         /// <summary>
         /// Gets the specified named logger.
@@ -447,7 +419,7 @@ namespace Quartz.Logging
 #else
     public
 #endif
-        static class LogProvider
+    static class LogProvider
     {
 #if !LIBLOG_PROVIDERS_ONLY
         private const string NullLogProvider = "Current Log Provider is not set. Call SetCurrentLogProvider " +
@@ -481,10 +453,10 @@ namespace Quartz.Logging
         public static bool IsDisabled { get; set; }
 
         /// <summary>
-        /// Sets an action that is invoked when a consumer of your library has called SetCurrentLogProvider. It is
+        /// Sets an action that is invoked when a consumer of your library has called SetCurrentLogProvider. It is 
         /// important that hook into this if you are using child libraries (especially ilmerged ones) that are using
         /// LibLog (or other logging abstraction) so you adapt and delegate to them.
-        /// <see cref="SetCurrentLogProvider"/>
+        /// <see cref="SetCurrentLogProvider"/> 
         /// </summary>
         internal static Action<ILogProvider> OnCurrentLogProviderSet
         {
@@ -513,7 +485,7 @@ namespace Quartz.Logging
 #else
         internal
 #endif
-            static ILog For<T>()
+        static ILog For<T>()
         {
             return GetLogger(typeof(T));
         }
@@ -547,10 +519,10 @@ namespace Quartz.Logging
 #else
         internal
 #endif
-            static ILog GetLogger(Type type, string fallbackTypeName = "System.Object")
+        static ILog GetLogger(Type type, string fallbackTypeName = "System.Object")
         {
             // If the type passed in is null then fallback to the type name specified
-            return GetLogger(type != null ? type.ToString() : fallbackTypeName);
+            return GetLogger(type != null ? type.FullName : fallbackTypeName);
         }
 
         /// <summary>
@@ -563,7 +535,7 @@ namespace Quartz.Logging
 #else
         internal
 #endif
-            static ILog GetLogger(string name)
+        static ILog GetLogger(string name)
         {
             ILogProvider logProvider = CurrentLogProvider ?? ResolveLogProvider();
             return logProvider == null
@@ -582,7 +554,7 @@ namespace Quartz.Logging
 #else
         internal
 #endif
-            static IDisposable OpenNestedContext(string message)
+        static IDisposable OpenNestedContext(string message)
         {
             ILogProvider logProvider = CurrentLogProvider ?? ResolveLogProvider();
 
@@ -603,7 +575,7 @@ namespace Quartz.Logging
 #else
         internal
 #endif
-            static IDisposable OpenMappedContext(string key, string value)
+        static IDisposable OpenMappedContext(string key, string value)
         {
             ILogProvider logProvider = CurrentLogProvider ?? ResolveLogProvider();
 
@@ -616,31 +588,31 @@ namespace Quartz.Logging
 #if LIBLOG_PROVIDERS_ONLY
     private
 #else
-        internal
+    internal
 #endif
-            delegate bool IsLoggerAvailable();
+    delegate bool IsLoggerAvailable();
 
 #if LIBLOG_PROVIDERS_ONLY
     private
 #else
-        internal
+    internal
 #endif
-            delegate ILogProvider CreateLogProvider();
+    delegate ILogProvider CreateLogProvider();
 
 #if LIBLOG_PROVIDERS_ONLY
     private
 #else
-        internal
+    internal
 #endif
-            static readonly List<Tuple<IsLoggerAvailable, CreateLogProvider>> LogProviderResolvers =
-                new List<Tuple<IsLoggerAvailable, CreateLogProvider>>
-                {
-                    new Tuple<IsLoggerAvailable, CreateLogProvider>(SerilogLogProvider.IsLoggerAvailable, () => new SerilogLogProvider()),
-                    new Tuple<IsLoggerAvailable, CreateLogProvider>(NLogLogProvider.IsLoggerAvailable, () => new NLogLogProvider()),
-                    new Tuple<IsLoggerAvailable, CreateLogProvider>(Log4NetLogProvider.IsLoggerAvailable, () => new Log4NetLogProvider()),
-                    new Tuple<IsLoggerAvailable, CreateLogProvider>(EntLibLogProvider.IsLoggerAvailable, () => new EntLibLogProvider()),
-                    new Tuple<IsLoggerAvailable, CreateLogProvider>(LoupeLogProvider.IsLoggerAvailable, () => new LoupeLogProvider()),
-                };
+    static readonly List<Tuple<IsLoggerAvailable, CreateLogProvider>> LogProviderResolvers =
+            new List<Tuple<IsLoggerAvailable, CreateLogProvider>>
+        {
+            new Tuple<IsLoggerAvailable, CreateLogProvider>(SerilogLogProvider.IsLoggerAvailable, () => new SerilogLogProvider()),
+            new Tuple<IsLoggerAvailable, CreateLogProvider>(NLogLogProvider.IsLoggerAvailable, () => new NLogLogProvider()),
+            new Tuple<IsLoggerAvailable, CreateLogProvider>(Log4NetLogProvider.IsLoggerAvailable, () => new Log4NetLogProvider()),
+            new Tuple<IsLoggerAvailable, CreateLogProvider>(EntLibLogProvider.IsLoggerAvailable, () => new EntLibLogProvider()),
+            new Tuple<IsLoggerAvailable, CreateLogProvider>(LoupeLogProvider.IsLoggerAvailable, () => new LoupeLogProvider()),
+        };
 
 #if !LIBLOG_PROVIDERS_ONLY
         private static void RaiseOnCurrentLogProviderSet()
@@ -697,16 +669,12 @@ namespace Quartz.Logging
     internal class LoggerExecutionWrapper : ILog
     {
         private readonly Logger _logger;
-        private readonly ICallSiteExtension _callsiteLogger;
         private readonly Func<bool> _getIsDisabled;
         internal const string FailedToGenerateLogMessage = "Failed to generate log message";
-
-        Func<string> _lastExtensionMethod;
 
         internal LoggerExecutionWrapper(Logger logger, Func<bool> getIsDisabled = null)
         {
             _logger = logger;
-            _callsiteLogger = new CallSiteExtension();
             _getIsDisabled = getIsDisabled ?? (() => false);
         }
 
@@ -727,58 +695,19 @@ namespace Quartz.Logging
                 return _logger(logLevel, null);
             }
 
-#if !LIBLOG_PORTABLE
-            // Callsite HACK - Using the messageFunc to provide the callsite-logger-type
-            var lastExtensionMethod = _lastExtensionMethod;
-            if (lastExtensionMethod == null || !lastExtensionMethod.Equals(messageFunc))
+            Func<string> wrappedMessageFunc = () =>
             {
-                // Callsite HACK - Cache the last validated messageFunc as Equals is faster than type-check
-                lastExtensionMethod = null;
-                var methodType = messageFunc.Method.DeclaringType;
-                if (methodType == typeof(LogExtensions) || (methodType != null && methodType.DeclaringType == typeof(LogExtensions)))
+                try
                 {
-                    lastExtensionMethod = messageFunc;
+                    return messageFunc();
                 }
-            }
-
-            if (lastExtensionMethod != null)
-            {
-                // Callsite HACK - LogExtensions has called virtual ILog interface method to get here, callsite-stack is good
-                _lastExtensionMethod = lastExtensionMethod;
-                return _logger(logLevel, LogExtensions.WrapLogSafeInternal(this, messageFunc), exception, formatParameters);
-            }
-            else
-#endif
-            {
-                Func<string> wrappedMessageFunc = () =>
+                catch (Exception ex)
                 {
-                    try
-                    {
-                        return messageFunc();
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger(LogLevel.Error, () => FailedToGenerateLogMessage, ex);
-                    }
-                    return null;
-                };
-
-                // Callsite HACK - Need to ensure proper callsite stack without inlining, so calling the logger within a virtual interface method
-                return _callsiteLogger.Log(_logger, logLevel, wrappedMessageFunc, exception, formatParameters);
-            }
-        }
-
-        interface ICallSiteExtension
-        {
-            bool Log(Logger logger, LogLevel logLevel, Func<string> messageFunc, Exception exception, object[] formatParameters);
-        }
-
-        class CallSiteExtension : ICallSiteExtension
-        {
-            bool ICallSiteExtension.Log(Logger logger, LogLevel logLevel, Func<string> messageFunc, Exception exception, object[] formatParameters)
-            {
-                return logger(logLevel, messageFunc, exception, formatParameters);
-            }
+                    Log(LogLevel.Error, () => FailedToGenerateLogMessage, ex);
+                }
+                return null;
+            };
+            return _logger(logLevel, wrappedMessageFunc, exception, formatParameters);
         }
     }
 #endif
@@ -801,6 +730,7 @@ namespace Quartz.Logging.LogProviders
     using System.Linq.Expressions;
     using System.Reflection;
 #if !LIBLOG_PORTABLE
+    using System.Text;
 #endif
     using System.Text.RegularExpressions;
 
@@ -818,7 +748,7 @@ namespace Quartz.Logging.LogProviders
             _lazyOpenNdcMethod
                 = new Lazy<OpenNdc>(GetOpenNdcMethod);
             _lazyOpenMdcMethod
-                = new Lazy<OpenMdc>(GetOpenMdcMethod);
+               = new Lazy<OpenMdc>(GetOpenMdcMethod);
         }
 
         public abstract Logger GetLogger(string name);
@@ -929,7 +859,7 @@ namespace Quartz.Logging.LogProviders
         {
             private readonly dynamic _logger;
 
-            private static Func<string, object, string, object[], Exception, object> _logEventInfoFact;
+            private static Func<string, object, string, Exception, object> _logEventInfoFact;
 
             private static readonly object _levelTrace;
             private static readonly object _levelDebug;
@@ -937,8 +867,6 @@ namespace Quartz.Logging.LogProviders
             private static readonly object _levelWarn;
             private static readonly object _levelError;
             private static readonly object _levelFatal;
-
-            private static readonly bool _structuredLoggingEnabled;
 
             static NLogLogger()
             {
@@ -963,31 +891,19 @@ namespace Quartz.Logging.LogProviders
                     {
                         throw new InvalidOperationException("Type NLog.LogEventInfo was not found.");
                     }
-
-                    ConstructorInfo loggingEventConstructor =
-                        logEventInfoType.GetConstructorPortable(logEventLevelType, typeof(string), typeof(IFormatProvider), typeof(string), typeof(object[]), typeof(Exception));
-
+                    MethodInfo createLogEventInfoMethodInfo = logEventInfoType.GetMethodPortable("Create",
+                        logEventLevelType, typeof(string), typeof(Exception), typeof(IFormatProvider), typeof(string), typeof(object[]));
                     ParameterExpression loggerNameParam = Expression.Parameter(typeof(string));
                     ParameterExpression levelParam = Expression.Parameter(typeof(object));
                     ParameterExpression messageParam = Expression.Parameter(typeof(string));
-                    ParameterExpression messageArgsParam = Expression.Parameter(typeof(object[]));
                     ParameterExpression exceptionParam = Expression.Parameter(typeof(Exception));
                     UnaryExpression levelCast = Expression.Convert(levelParam, logEventLevelType);
-
-                    NewExpression newLoggingEventExpression =
-                        Expression.New(loggingEventConstructor,
-                                       levelCast,
-                                        loggerNameParam,
-                                        Expression.Constant(null, typeof(IFormatProvider)),
-                                        messageParam,
-                                        messageArgsParam,
-                                        exceptionParam
-                                        );
-
-                    _logEventInfoFact = Expression.Lambda<Func<string, object, string, object[], Exception, object>>(newLoggingEventExpression,
-                        loggerNameParam, levelParam, messageParam, messageArgsParam, exceptionParam).Compile();
-
-                    _structuredLoggingEnabled = IsStructuredLoggingEnabled();
+                    MethodCallExpression createLogEventInfoMethodCall = Expression.Call(null,
+                        createLogEventInfoMethodInfo,
+                        levelCast, loggerNameParam, exceptionParam,
+                        Expression.Constant(null, typeof(IFormatProvider)), messageParam, Expression.Constant(null, typeof(object[])));
+                    _logEventInfoFact = Expression.Lambda<Func<string, object, string, Exception, object>>(createLogEventInfoMethodCall,
+                        loggerNameParam, levelParam, messageParam, exceptionParam).Compile();
                 }
                 catch { }
             }
@@ -1004,49 +920,49 @@ namespace Quartz.Logging.LogProviders
                 {
                     return IsLogLevelEnable(logLevel);
                 }
+                messageFunc = LogMessageFormatter.SimulateStructuredLogging(messageFunc, formatParameters);
 
                 if (_logEventInfoFact != null)
                 {
                     if (IsLogLevelEnable(logLevel))
                     {
-                        string formatMessage = messageFunc();
-                        if (!_structuredLoggingEnabled)
-                        {
-                            IEnumerable<string> patternMatches;
-                            formatMessage =
-                                LogMessageFormatter.FormatStructuredMessage(formatMessage,
-                                                                            formatParameters,
-                                                                            out patternMatches);
-                            formatParameters = null;    // Has been formatted, no need for parameters
-                        }
-
-                        Type callsiteLoggerType = typeof(NLogLogger);
-#if !LIBLOG_PORTABLE
-                        // Callsite HACK - Extract the callsite-logger-type from the messageFunc
-                        var methodType = messageFunc.Method.DeclaringType;
-                        if (methodType == typeof(LogExtensions) || (methodType != null && methodType.DeclaringType == typeof(LogExtensions)))
-                        {
-                            callsiteLoggerType = typeof(LogExtensions);
-                        }
-                        else if (methodType == typeof(LoggerExecutionWrapper) || (methodType != null && methodType.DeclaringType == typeof(LoggerExecutionWrapper)))
-                        {
-                            callsiteLoggerType = typeof(LoggerExecutionWrapper);
-                        }
-#endif
                         var nlogLevel = this.TranslateLevel(logLevel);
-                        var nlogEvent = _logEventInfoFact(_logger.Name, nlogLevel, formatMessage, formatParameters, exception);
-                        _logger.Log(callsiteLoggerType, nlogEvent);
+                        Type s_callerStackBoundaryType;
+#if !LIBLOG_PORTABLE
+                        StackTrace stack = new StackTrace();
+                        Type thisType = GetType();
+                        Type knownType0 = typeof(LoggerExecutionWrapper);
+                        Type knownType1 = typeof(LogExtensions);
+                        //Maybe inline, so we may can't found any LibLog classes in stack
+                        s_callerStackBoundaryType = null;
+                        for (var i = 0; i < stack.FrameCount; i++)
+                        {
+                            var declaringType = stack.GetFrame(i).GetMethod().DeclaringType;
+                            if (!IsInTypeHierarchy(thisType, declaringType) &&
+                                !IsInTypeHierarchy(knownType0, declaringType) &&
+                                !IsInTypeHierarchy(knownType1, declaringType))
+                            {
+                                if (i > 1)
+                                    s_callerStackBoundaryType = stack.GetFrame(i - 1).GetMethod().DeclaringType;
+                                break;
+                            }
+                        }
+#else
+                        s_callerStackBoundaryType = null;
+#endif
+                        if (s_callerStackBoundaryType != null)
+                            _logger.Log(s_callerStackBoundaryType, _logEventInfoFact(_logger.Name, nlogLevel, messageFunc(), exception));
+                        else
+                            _logger.Log(_logEventInfoFact(_logger.Name, nlogLevel, messageFunc(), exception));
                         return true;
                     }
                     return false;
                 }
 
-                messageFunc = LogMessageFormatter.SimulateStructuredLogging(messageFunc, formatParameters);
-                if (exception != null)
+                if(exception != null)
                 {
                     return LogException(logLevel, messageFunc, exception);
                 }
-
                 switch (logLevel)
                 {
                     case LogLevel.Debug:
@@ -1091,6 +1007,19 @@ namespace Quartz.Logging.LogProviders
                             return true;
                         }
                         break;
+                }
+                return false;
+            }
+
+            private static bool IsInTypeHierarchy(Type currentType, Type checkType)
+            {
+                while (currentType != null && currentType != typeof(object))
+                {
+                    if (currentType == checkType)
+                    {
+                        return true;
+                    }
+                    currentType = currentType.GetBaseTypePortable();
                 }
                 return false;
             }
@@ -1185,39 +1114,12 @@ namespace Quartz.Logging.LogProviders
                         throw new ArgumentOutOfRangeException("logLevel", logLevel, null);
                 }
             }
-
-            private static bool IsStructuredLoggingEnabled()
-            {
-                var configFactoryType = Type.GetType("NLog.Config.ConfigurationItemFactory, NLog");
-                if (configFactoryType != null)
-                {
-                    PropertyInfo parseMessagesProperty = configFactoryType.GetPropertyPortable("ParseMessageTemplates");
-                    if (parseMessagesProperty != null)
-                    {
-                        PropertyInfo defaultProperty = configFactoryType.GetPropertyPortable("Default");
-                        if (defaultProperty != null)
-                        {
-                            object configFactoryDefault = defaultProperty.GetValue(null, null);
-                            if (configFactoryDefault != null)
-                            {
-                                Nullable<bool> parseMessageTemplates = parseMessagesProperty.GetValue(configFactoryDefault, null) as Nullable<bool>;
-                                if (parseMessageTemplates != false)
-                                {
-                                    return true;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                return false;
-            }
         }
     }
 
     internal class Log4NetLogProvider : LogProviderBase
     {
-        private readonly Func<Assembly, string, object> _getLoggerByNameDelegate;
+        private readonly Func<string, object> _getLoggerByNameDelegate;
         private static bool s_providerIsAvailableOverride = true;
 
         [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "LogManager")]
@@ -1238,13 +1140,7 @@ namespace Quartz.Logging.LogProviders
 
         public override Logger GetLogger(string name)
         {
-#if LIBLOG_PORTABLE
-            return new Log4NetLogger(_getLoggerByNameDelegate(
-                typeof(ILog).GetType().GetTypeInfo().Assembly, name)).Log;
-#else
-            return new Log4NetLogger(_getLoggerByNameDelegate(
-                typeof(ILog).GetType().Assembly, name)).Log;
-#endif
+            return new Log4NetLogger(_getLoggerByNameDelegate(name)).Log;
         }
 
         internal static bool IsLoggerAvailable()
@@ -1268,14 +1164,14 @@ namespace Quartz.Logging.LogProviders
             MethodCallExpression callPushBody =
                 Expression.Call(
                     Expression.Property(Expression.Property(null, stacksProperty),
-                        stacksIndexerProperty,
-                        Expression.Constant("NDC")),
+                                        stacksIndexerProperty,
+                                        Expression.Constant("NDC")),
                     pushMethod,
                     messageParameter);
 
             OpenNdc result =
                 Expression.Lambda<OpenNdc>(callPushBody, messageParameter)
-                    .Compile();
+                          .Compile();
 
             return result;
         }
@@ -1320,32 +1216,36 @@ namespace Quartz.Logging.LogProviders
             return Type.GetType("log4net.LogManager, log4net");
         }
 
-        private static Func<Assembly, string, object> GetGetLoggerMethodCall()
+        private static Func<string, object> GetGetLoggerMethodCall()
         {
             Type logManagerType = GetLogManagerType();
-            MethodInfo method = logManagerType.GetMethodPortable("GetLogger", typeof(Assembly), typeof(string));
-            ParameterExpression assemblyParam = Expression.Parameter(typeof(Assembly), "repositoryAssembly");
+            MethodInfo method = logManagerType.GetMethodPortable("GetLogger", typeof(string));
             ParameterExpression nameParam = Expression.Parameter(typeof(string), "name");
-            MethodCallExpression methodCall = Expression.Call(null, method, assemblyParam, nameParam);
-            return Expression.Lambda<Func<Assembly, string, object>>(methodCall, assemblyParam, nameParam).Compile();
+            MethodCallExpression methodCall = Expression.Call(null, method, nameParam);
+            return Expression.Lambda<Func<string, object>>(methodCall, nameParam).Compile();
         }
 
         internal class Log4NetLogger
         {
             private readonly dynamic _logger;
+            private static Type s_callerStackBoundaryType;
+            private static readonly object CallerStackBoundaryTypeSync = new object();
 
-            private static readonly object _levelDebug;
-            private static readonly object _levelInfo;
-            private static readonly object _levelWarn;
-            private static readonly object _levelError;
-            private static readonly object _levelFatal;
-            private static readonly Func<object, object, bool> _isEnabledForDelegate;
-            private static readonly Action<object, object> _logDelegate;
-            private static readonly Func<object, Type, object, string, Exception, object> _createLoggingEvent;
-            private static readonly Action<object, string, object> _loggingEventPropertySetter;
+            private readonly object _levelDebug;
+            private readonly object _levelInfo;
+            private readonly object _levelWarn;
+            private readonly object _levelError;
+            private readonly object _levelFatal;
+            private readonly Func<object, object, bool> _isEnabledForDelegate;
+            private readonly Action<object, object> _logDelegate;
+            private readonly Func<object, Type, object, string, Exception, object> _createLoggingEvent;
+            private Action<object, string, object> _loggingEventPropertySetter;
 
-            static Log4NetLogger()
+            [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "ILogger")]
+            internal Log4NetLogger(dynamic logger)
             {
+                _logger = logger.Logger;
+
                 var logEventLevelType = Type.GetType("log4net.Core.Level, log4net");
                 if (logEventLevelType == null)
                 {
@@ -1380,19 +1280,13 @@ namespace Quartz.Logging.LogProviders
                 _loggingEventPropertySetter = GetLoggingEventPropertySetter(loggingEventType);
             }
 
-            [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "ILogger")]
-            internal Log4NetLogger(dynamic logger)
-            {
-                _logger = logger.Logger;
-            }
-
             private static Action<object, object> GetLogDelegate(Type loggerType, Type loggingEventType, UnaryExpression instanceCast,
-                ParameterExpression instanceParam)
+                                                 ParameterExpression instanceParam)
             {
                 //Action<object, object, string, Exception> Log =
                 //(logger, callerStackBoundaryDeclaringType, level, message, exception) => { ((ILogger)logger).Log(new LoggingEvent(callerStackBoundaryDeclaringType, logger.Repository, logger.Name, level, message, exception)); }
                 MethodInfo writeExceptionMethodInfo = loggerType.GetMethodPortable("Log",
-                    loggingEventType);
+                                                                                   loggingEventType);
 
                 ParameterExpression loggingEventParameter =
                     Expression.Parameter(typeof(object), "loggingEvent");
@@ -1406,9 +1300,9 @@ namespace Quartz.Logging.LogProviders
                     loggingEventCasted);
 
                 var logDelegate = Expression.Lambda<Action<object, object>>(
-                    writeMethodExp,
-                    instanceParam,
-                    loggingEventParameter).Compile();
+                                                writeMethodExp,
+                                                instanceParam,
+                                                loggingEventParameter).Compile();
 
                 return logDelegate;
             }
@@ -1429,38 +1323,38 @@ namespace Quartz.Logging.LogProviders
                 //(logger, callerStackBoundaryDeclaringType, level, message, exception) => new LoggingEvent(callerStackBoundaryDeclaringType, ((ILogger)logger).Repository, ((ILogger)logger).Name, (Level)level, message, exception); }
                 NewExpression newLoggingEventExpression =
                     Expression.New(loggingEventConstructor,
-                        callerStackBoundaryDeclaringTypeParam,
-                        Expression.Property(instanceCast, "Repository"),
-                        Expression.Property(instanceCast, "Name"),
-                        levelCast,
-                        messageParam,
-                        exceptionParam);
+                                   callerStackBoundaryDeclaringTypeParam,
+                                   Expression.Property(instanceCast, "Repository"),
+                                   Expression.Property(instanceCast, "Name"),
+                                   levelCast,
+                                   messageParam,
+                                   exceptionParam);
 
                 var createLoggingEvent =
                     Expression.Lambda<Func<object, Type, object, string, Exception, object>>(
-                            newLoggingEventExpression,
-                            instanceParam,
-                            callerStackBoundaryDeclaringTypeParam,
-                            levelParam,
-                            messageParam,
-                            exceptionParam)
-                        .Compile();
+                                  newLoggingEventExpression,
+                                  instanceParam,
+                                  callerStackBoundaryDeclaringTypeParam,
+                                  levelParam,
+                                  messageParam,
+                                  exceptionParam)
+                              .Compile();
 
                 return createLoggingEvent;
             }
 
             private static Func<object, object, bool> GetIsEnabledFor(Type loggerType, Type logEventLevelType,
-                UnaryExpression instanceCast,
-                UnaryExpression levelCast,
-                ParameterExpression instanceParam,
-                ParameterExpression levelParam)
+                                                                      UnaryExpression instanceCast,
+                                                                      UnaryExpression levelCast,
+                                                                      ParameterExpression instanceParam,
+                                                                      ParameterExpression levelParam)
             {
                 MethodInfo isEnabledMethodInfo = loggerType.GetMethodPortable("IsEnabledFor", logEventLevelType);
                 MethodCallExpression isEnabledMethodCall = Expression.Call(instanceCast, isEnabledMethodInfo, levelCast);
 
                 Func<object, object, bool> result =
                     Expression.Lambda<Func<object, object, bool>>(isEnabledMethodCall, instanceParam, levelParam)
-                        .Compile();
+                              .Compile();
 
                 return result;
             }
@@ -1479,13 +1373,13 @@ namespace Quartz.Logging.LogProviders
                     Expression.Assign(
                         Expression.Property(
                             Expression.Property(Expression.Convert(loggingEventParameter, loggingEventType),
-                                propertiesProperty), item, keyParameter), valueParameter);
+                                                propertiesProperty), item, keyParameter), valueParameter);
 
                 Action<object, string, object> result =
                     Expression.Lambda<Action<object, string, object>>
-                        (body, loggingEventParameter, keyParameter,
-                            valueParameter)
-                        .Compile();
+                              (body, loggingEventParameter, keyParameter,
+                               valueParameter)
+                              .Compile();
 
                 return result;
             }
@@ -1502,30 +1396,41 @@ namespace Quartz.Logging.LogProviders
                     return false;
                 }
 
-                string formattedMessage =
-                    LogMessageFormatter.FormatStructuredMessage(messageFunc(),
-                        formatParameters,
-                        out var patternMatches);
+                string message = messageFunc();
 
-                Type callerStackBoundaryType = typeof(Log4NetLogger);
+                IEnumerable<string> patternMatches;
+
+                string formattedMessage =
+                    LogMessageFormatter.FormatStructuredMessage(message,
+                                                                formatParameters,
+                                                                out patternMatches);
+
+                // determine correct caller - this might change due to jit optimizations with method inlining
+                if (s_callerStackBoundaryType == null)
+                {
+                    lock (CallerStackBoundaryTypeSync)
+                    {
 #if !LIBLOG_PORTABLE
-                // Callsite HACK - Extract the callsite-logger-type from the messageFunc
-                var methodType = messageFunc.Method.DeclaringType;
-                if (methodType == typeof(LogExtensions) || (methodType != null && methodType.DeclaringType == typeof(LogExtensions)))
-                {
-                    callerStackBoundaryType = typeof(LogExtensions);
-                }
-                else if (methodType == typeof(LoggerExecutionWrapper) || (methodType != null && methodType.DeclaringType == typeof(LoggerExecutionWrapper)))
-                {
-                    callerStackBoundaryType = typeof(LoggerExecutionWrapper);
-                }
+                        StackTrace stack = new StackTrace();
+                        Type thisType = GetType();
+                        s_callerStackBoundaryType = Type.GetType("LoggerExecutionWrapper");
+                        for (var i = 1; i < stack.FrameCount; i++)
+                        {
+                            if (!IsInTypeHierarchy(thisType, stack.GetFrame(i).GetMethod().DeclaringType))
+                            {
+                                s_callerStackBoundaryType = stack.GetFrame(i - 1).GetMethod().DeclaringType;
+                                break;
+                            }
+                        }
 #else
-                callerStackBoundaryType = typeof(LoggerExecutionWrapper);
+                        s_callerStackBoundaryType = typeof (LoggerExecutionWrapper);
 #endif
+                    }
+                }
 
                 var translatedLevel = TranslateLevel(logLevel);
 
-                object loggingEvent = _createLoggingEvent(_logger, callerStackBoundaryType, translatedLevel, formattedMessage, exception);
+                object loggingEvent = _createLoggingEvent(_logger, s_callerStackBoundaryType, translatedLevel, formattedMessage, exception);
 
                 PopulateProperties(loggingEvent, patternMatches, formatParameters);
 
@@ -1536,17 +1441,27 @@ namespace Quartz.Logging.LogProviders
 
             private void PopulateProperties(object loggingEvent, IEnumerable<string> patternMatches, object[] formatParameters)
             {
-                if (patternMatches.Count() > 0)
-                {
-                    IEnumerable<KeyValuePair<string, object>> keyToValue =
+                IEnumerable<KeyValuePair<string, object>> keyToValue =
                     patternMatches.Zip(formatParameters,
                                        (key, value) => new KeyValuePair<string, object>(key, value));
 
-                    foreach (KeyValuePair<string, object> keyValuePair in keyToValue)
-                    {
-                        _loggingEventPropertySetter(loggingEvent, keyValuePair.Key, keyValuePair.Value);
-                    }
+                foreach (KeyValuePair<string, object> keyValuePair in keyToValue)
+                {
+                    _loggingEventPropertySetter(loggingEvent, keyValuePair.Key, keyValuePair.Value);
                 }
+            }
+
+            private static bool IsInTypeHierarchy(Type currentType, Type checkType)
+            {
+                while (currentType != null && currentType != typeof(object))
+                {
+                    if (currentType == checkType)
+                    {
+                        return true;
+                    }
+                    currentType = currentType.GetBaseTypePortable();
+                }
+                return false;
             }
 
             private bool IsLogLevelEnable(LogLevel logLevel)
@@ -1594,8 +1509,8 @@ namespace Quartz.Logging.LogProviders
             LoggerType = Type.GetType(string.Format(CultureInfo.InvariantCulture, TypeTemplate, "Logger"));
             TraceEventTypeType = TraceEventTypeValues.Type;
             if (LogEntryType == null
-                || TraceEventTypeType == null
-                || LoggerType == null)
+                 || TraceEventTypeType == null
+                 || LoggerType == null)
             {
                 return;
             }
@@ -1626,8 +1541,8 @@ namespace Quartz.Logging.LogProviders
         internal static bool IsLoggerAvailable()
         {
             return ProviderIsAvailableOverride
-                   && TraceEventTypeType != null
-                   && LogEntryType != null;
+                 && TraceEventTypeType != null
+                 && LogEntryType != null;
         }
 
         private static Action<string, string, int> GetWriteLogEntry()
@@ -1683,12 +1598,12 @@ namespace Quartz.Logging.LogProviders
                 Expression.Bind(entryType.GetPropertyPortable("Severity"), severityParameter),
                 Expression.Bind(
                     entryType.GetPropertyPortable("TimeStamp"),
-                    Expression.Property(null, typeof(DateTime).GetPropertyPortable("UtcNow"))),
+                    Expression.Property(null, typeof (DateTime).GetPropertyPortable("UtcNow"))),
                 Expression.Bind(
                     entryType.GetPropertyPortable("Categories"),
                     Expression.ListInit(
-                        Expression.New(typeof(List<string>)),
-                        typeof(List<string>).GetMethodPortable("Add", typeof(string)),
+                        Expression.New(typeof (List<string>)),
+                        typeof (List<string>).GetMethodPortable("Add", typeof (string)),
                         logNameParameter)));
             return memberInit;
         }
@@ -1755,7 +1670,6 @@ namespace Quartz.Logging.LogProviders
     {
         private readonly Func<string, object> _getLoggerByNameDelegate;
         private static bool s_providerIsAvailableOverride = true;
-        private readonly Func<string, string, IDisposable> _pushProperty;
 
         [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "Serilog")]
         public SerilogLogProvider()
@@ -1765,7 +1679,6 @@ namespace Quartz.Logging.LogProviders
                 throw new InvalidOperationException("Serilog.Log not found");
             }
             _getLoggerByNameDelegate = GetForContextMethodCall();
-            _pushProperty = GetPushProperty();
         }
 
         public static bool ProviderIsAvailableOverride
@@ -1786,21 +1699,21 @@ namespace Quartz.Logging.LogProviders
 
         protected override OpenNdc GetOpenNdcMethod()
         {
-            return message => _pushProperty("NDC", message);
+            return message => GetPushProperty()("NDC", message);
         }
 
         protected override OpenMdc GetOpenMdcMethod()
         {
-            return (key, value) => _pushProperty(key, value);
+            return (key, value) => GetPushProperty()(key, value);
         }
 
         private static Func<string, string, IDisposable> GetPushProperty()
         {
-            Type ndcContextType = Type.GetType("Serilog.Context.LogContext, Serilog") ??
+            Type ndcContextType = Type.GetType("Serilog.Context.LogContext, Serilog") ?? 
                                   Type.GetType("Serilog.Context.LogContext, Serilog.FullNetFx");
 
             MethodInfo pushPropertyMethod = ndcContextType.GetMethodPortable(
-                "PushProperty",
+                "PushProperty", 
                 typeof(string),
                 typeof(object),
                 typeof(bool));
@@ -1817,7 +1730,7 @@ namespace Quartz.Logging.LogProviders
                     valueParam,
                     destructureObjectParam)
                 .Compile();
-
+            
             return (key, value) => pushProperty(key, value, false);
         }
 
@@ -1835,15 +1748,15 @@ namespace Quartz.Logging.LogProviders
             ParameterExpression destructureObjectsParam = Expression.Parameter(typeof(bool), "destructureObjects");
             MethodCallExpression methodCall = Expression.Call(null, method, new Expression[]
             {
-                propertyNameParam,
+                propertyNameParam, 
                 valueParam,
                 destructureObjectsParam
             });
             var func = Expression.Lambda<Func<string, object, bool, object>>(
-                    methodCall,
-                    propertyNameParam,
-                    valueParam,
-                    destructureObjectsParam)
+                methodCall,
+                propertyNameParam,
+                valueParam,
+                destructureObjectsParam)
                 .Compile();
             return name => func("SourceContext", name, false);
         }
@@ -1906,7 +1819,7 @@ namespace Quartz.Logging.LogProviders
                     messageParam,
                     propertyValuesParam);
                 var expression = Expression.Lambda<Action<object, object, string, object[]>>(
-                    writeMethodExp,
+                    writeMethodExp, 
                     instanceParam,
                     levelParam,
                     messageParam,
@@ -1915,7 +1828,7 @@ namespace Quartz.Logging.LogProviders
 
                 // Action<object, object, string, Exception> WriteException =
                 // (logger, level, exception, message) => { ((ILogger)logger).Write(level, exception, message, new object[]); }
-                MethodInfo writeExceptionMethodInfo = loggerType.GetMethodPortable("Write",
+                MethodInfo writeExceptionMethodInfo = loggerType.GetMethodPortable("Write", 
                     logEventLevelType,
                     typeof(Exception),
                     typeof(string),
@@ -1929,7 +1842,7 @@ namespace Quartz.Logging.LogProviders
                     messageParam,
                     propertyValuesParam);
                 WriteException = Expression.Lambda<Action<object, object, Exception, string, object[]>>(
-                    writeMethodExp,
+                    writeMethodExp, 
                     instanceParam,
                     levelParam,
                     exceptionParam,
@@ -2015,7 +1928,7 @@ namespace Quartz.Logging.LogProviders
             string caption,
             string description,
             params object[] args
-        );
+            );
 
         private static bool s_providerIsAvailableOverride = true;
         private readonly WriteDelegate _logWriteDelegate;
@@ -2065,7 +1978,7 @@ namespace Quartz.Logging.LogProviders
 
             MethodInfo method = logManagerType.GetMethodPortable(
                 "Write",
-                logMessageSeverityType, typeof(string), typeof(int), typeof(Exception), typeof(bool),
+                logMessageSeverityType, typeof(string), typeof(int), typeof(Exception), typeof(bool), 
                 logWriteModeType, typeof(string), typeof(string), typeof(string), typeof(string), typeof(object[]));
 
             var callDelegate = (WriteDelegate)method.CreateDelegate(typeof(WriteDelegate));
@@ -2168,9 +2081,9 @@ namespace Quartz.Logging.LogProviders
 
         /// <summary>
         /// Some logging frameworks support structured logging, such as serilog. This will allow you to add names to structured data in a format string:
-        /// For example: Log("Log message to {user}", user). This only works with serilog, but as the user of LibLog, you don't know if serilog is actually
-        /// used. So, this class simulates that. it will replace any text in {curly braces} with an index number.
-        ///
+        /// For example: Log("Log message to {user}", user). This only works with serilog, but as the user of LibLog, you don't know if serilog is actually 
+        /// used. So, this class simulates that. it will replace any text in {curly braces} with an index number. 
+        /// 
         /// "Log {message} to {user}" would turn into => "Log {0} to {1}". Then the format parameters are handled using regular .net string.Format.
         /// </summary>
         /// <param name="messageBuilder">The message builder.</param>
@@ -2186,7 +2099,8 @@ namespace Quartz.Logging.LogProviders
             return () =>
             {
                 string targetMessage = messageBuilder();
-                return FormatStructuredMessage(targetMessage, formatParameters, out _);
+                IEnumerable<string> patternMatches;
+                return FormatStructuredMessage(targetMessage, formatParameters, out patternMatches);
             };
         }
 
@@ -2202,13 +2116,14 @@ namespace Quartz.Logging.LogProviders
 
         public static string FormatStructuredMessage(string targetMessage, object[] formatParameters, out IEnumerable<string> patternMatches)
         {
-            if (formatParameters == null || formatParameters.Length == 0)
+            if (formatParameters.Length == 0)
             {
                 patternMatches = Enumerable.Empty<string>();
                 return targetMessage;
             }
 
-            List<string> processedArguments = null;
+            List<string> processedArguments = new List<string>();
+            patternMatches = processedArguments;
 
             foreach (Match match in Pattern.Matches(targetMessage))
             {
@@ -2217,7 +2132,6 @@ namespace Quartz.Logging.LogProviders
                 int notUsed;
                 if (!int.TryParse(arg, out notUsed))
                 {
-                    processedArguments = processedArguments ?? new List<string>(formatParameters.Length);
                     int argumentIndex = processedArguments.IndexOf(arg);
                     if (argumentIndex == -1)
                     {
@@ -2226,12 +2140,9 @@ namespace Quartz.Logging.LogProviders
                     }
 
                     targetMessage = ReplaceFirst(targetMessage, match.Value,
-                        string.Concat("{", argumentIndex.ToString(), match.Groups["format"].Value, "}"));
+                        "{" + argumentIndex + match.Groups["format"].Value + "}");
                 }
             }
-
-            patternMatches = processedArguments ?? Enumerable.Empty<string>();
-
             try
             {
                 return string.Format(CultureInfo.InvariantCulture, targetMessage, formatParameters);
@@ -2249,10 +2160,10 @@ namespace Quartz.Logging.LogProviders
         {
 #if LIBLOG_PORTABLE
             return type.GetTypeInfo().DeclaredConstructors.FirstOrDefault
-            (constructor =>
-                constructor.GetParameters()
-                    .Select(parameter => parameter.ParameterType)
-                    .SequenceEqual(types));
+                       (constructor =>
+                            constructor.GetParameters()
+                                       .Select(parameter => parameter.ParameterType)
+                                       .SequenceEqual(types));
 #else
             return type.GetConstructor(types);
 #endif
@@ -2343,7 +2254,10 @@ namespace Quartz.Logging.LogProviders
 
         public void Dispose()
         {
-            _onDispose?.Invoke();
+            if(_onDispose != null)
+            {
+                _onDispose();
+            }
         }
     }
 }

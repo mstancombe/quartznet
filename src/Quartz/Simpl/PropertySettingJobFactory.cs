@@ -205,7 +205,7 @@ namespace Quartz.Simpl
 				}
 				else
 				{
-					log.Warn(message, e);
+					log.WarnException(message, e);
 				}
 			}
 		}

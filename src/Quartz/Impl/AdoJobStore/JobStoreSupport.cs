@@ -68,7 +68,6 @@ namespace Quartz.Impl.AdoJobStore
         private MisfireHandler misfireHandler;
         private ITypeLoadHelper typeLoadHelper;
         private ISchedulerSignaler schedSignaler;
-        private readonly ILog log;
         private IObjectSerializer objectSerializer = new DefaultObjectSerializer();
         private IThreadExecutor threadExecutor = new DefaultThreadExecutor();
 
@@ -87,7 +86,7 @@ namespace Quartz.Impl.AdoJobStore
             ClusterCheckinInterval = TimeSpan.FromMilliseconds(7500);
             MaxMisfiresToHandleAtATime = 20;
             DbRetryInterval = TimeSpan.FromSeconds(15);
-            log = LogProvider.GetLogger(GetType());
+            Log = LogProvider.GetLogger(GetType());
             delegateType = typeof(StdAdoDelegate);
         }
 
@@ -108,6 +107,12 @@ namespace Quartz.Impl.AdoJobStore
             get { return connectionManager; }
             set { connectionManager = value; }
         }
+
+        /// <summary>
+        /// Gets the log.
+        /// </summary>
+        /// <value>The log.</value>
+        internal ILog Log { get; }
 
         /// <summary>
         /// Get or sets the prefix that should be pre-pended to all table names.
@@ -448,7 +453,6 @@ namespace Quartz.Impl.AdoJobStore
                             IDbProvider dbProvider = ConnectionManager.GetDbProvider(DataSource);
                             var args = new DelegateInitializationArgs();
                             args.UseProperties = CanUseProperties;
-                            args.Logger = log;
                             args.TablePrefix = tablePrefix;
                             args.InstanceName = instanceName;
                             args.InstanceId = instanceId;
@@ -575,7 +579,7 @@ namespace Quartz.Impl.AdoJobStore
                 }
                 catch (SchedulerException se)
                 {
-                    log.Error("Failure occurred during job recovery: " + se.Message, se);
+                    Log.ErrorException("Failure occurred during job recovery: " + se.Message, se);
                     throw new SchedulerConfigException("Failure occurred during job recovery.", se);
                 }
             }
@@ -642,7 +646,7 @@ namespace Quartz.Impl.AdoJobStore
             }
             catch (Exception sqle)
             {
-                Log.Warn("Database connection Shutdown unsuccessful.", sqle);
+                Log.WarnException("Database connection Shutdown unsuccessful.", sqle);
             }
         }
 
@@ -667,7 +671,7 @@ namespace Quartz.Impl.AdoJobStore
                 }
                 catch (LockException le)
                 {
-                    Log.Error("Error returning lock: " + le.Message, le);
+                    Log.ErrorException("Error returning lock: " + le.Message, le);
                 }
             }
         }
@@ -2509,12 +2513,12 @@ namespace Quartz.Impl.AdoJobStore
                         {
                             try
                             {
-                                Log.Error("Error retrieving job, setting trigger state to ERROR.", jpe);
+                                Log.ErrorException("Error retrieving job, setting trigger state to ERROR.", jpe);
                                 Delegate.UpdateTriggerState(conn, triggerKey, StateError);
                             }
                             catch (Exception ex)
                             {
-                                Log.Error("Unable to set trigger state to ERROR.", ex);
+                                Log.ErrorException("Unable to set trigger state to ERROR.", ex);
                             }
                             continue;
                         }
@@ -2621,12 +2625,12 @@ namespace Quartz.Impl.AdoJobStore
                         }
                         catch (JobPersistenceException jpe)
                         {
-                            log.ErrorFormat("Caught job persistence exception: " + jpe.Message, jpe);
+                            Log.ErrorFormat("Caught job persistence exception: " + jpe.Message, jpe);
                             result = new TriggerFiredResult(jpe);
                         }
                         catch (Exception ex)
                         {
-                            log.ErrorFormat("Caught exception: " + ex.Message, ex);
+                            Log.ErrorFormat("Caught exception: " + ex.Message, ex);
                             result = new TriggerFiredResult(ex);
                         }
                         results.Add(result);
@@ -2695,12 +2699,12 @@ namespace Quartz.Impl.AdoJobStore
             {
                 try
                 {
-                    Log.Error("Error retrieving job, setting trigger state to ERROR.", jpe);
+                    Log.ErrorException("Error retrieving job, setting trigger state to ERROR.", jpe);
                     Delegate.UpdateTriggerState(conn, trigger.Key, StateError);
                 }
                 catch (Exception sqle)
                 {
-                    Log.Error("Unable to set trigger state to ERROR.", sqle);
+                    Log.ErrorException("Unable to set trigger state to ERROR.", sqle);
                 }
                 throw;
             }
@@ -3350,7 +3354,7 @@ namespace Quartz.Impl.AdoJobStore
                 }
                 catch (Exception e)
                 {
-                    Log.Error(
+                    Log.ErrorException(
                         "Unexpected exception closing Connection." +
                         "  This is often due to a Connection being returned after or during shutdown.", e);
                 }
@@ -3365,7 +3369,7 @@ namespace Quartz.Impl.AdoJobStore
             if (cth == null)
             {
                 // db might be down or similar
-                log.Info("ConnectionAndTransactionHolder passed to RollbackConnection was null, ignoring");
+                Log.Info("ConnectionAndTransactionHolder passed to RollbackConnection was null, ignoring");
                 return;
             }
 
@@ -3382,11 +3386,11 @@ namespace Quartz.Impl.AdoJobStore
                     {
                         // original error was transient, ones we have in Azure, don't complain too much about it
                         // we will try again anyway
-                        log.Debug("Rollback failed due to transient error");
+                        Log.Debug("Rollback failed due to transient error");
                     }
                     else
                     {
-                        Log.Error("Couldn't rollback ADO.NET connection. " + e.Message, e);
+                        Log.ErrorException("Couldn't rollback ADO.NET connection. " + e.Message, e);
                     }
                 }
             }
@@ -3426,7 +3430,7 @@ namespace Quartz.Impl.AdoJobStore
         {
             if (cth == null)
             {
-                log.Debug("ConnectionAndTransactionHolder passed to CommitConnection was null, ignoring");
+                Log.Debug("ConnectionAndTransactionHolder passed to CommitConnection was null, ignoring");
                 return;
             }
 
@@ -3513,7 +3517,7 @@ namespace Quartz.Impl.AdoJobStore
                 }
                 catch (Exception e)
                 {
-                    Log.Error("retryExecuteInNonManagedTXLock: RuntimeException " + e.Message, e);
+                    Log.ErrorException("retryExecuteInNonManagedTXLock: RuntimeException " + e.Message, e);
                 }
                 try
                 {
@@ -3684,7 +3688,7 @@ namespace Quartz.Impl.AdoJobStore
                 {
                     if (numFails % this.jobStoreSupport.RetryableActionErrorLogThreshold == 0)
                     {
-                        jobStoreSupport.Log.Error("ClusterManager: Error managing cluster: " + e.Message, e);
+                        jobStoreSupport.Log.ErrorException("ClusterManager: Error managing cluster: " + e.Message, e);
                     }
                     numFails++;
                 }
@@ -3772,7 +3776,7 @@ namespace Quartz.Impl.AdoJobStore
                 {
                     if (numFails % this.jobStoreSupport.RetryableActionErrorLogThreshold == 0)
                     {
-                        jobStoreSupport.Log.Error(
+                        jobStoreSupport.Log.ErrorException(
                             "MisfireHandler: Error handling misfires: "
                             + e.Message, e);
                     }
