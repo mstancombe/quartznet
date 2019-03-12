@@ -213,7 +213,7 @@ namespace Quartz.Simpl
             }
         }
 
-        internal ILog Log { get; }
+        internal ILog Log { get; private set; }
 
         /// <summary>
         /// Gets or sets the port used for remoting.

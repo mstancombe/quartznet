@@ -130,7 +130,7 @@ namespace Quartz.Xml
         /// Gets the log.
         /// </summary>
         /// <value>The log.</value>
-        private ILog Log { get; }
+        private ILog Log { get; set; }
 
         protected IList<IJobDetail> LoadedJobs
         {

@@ -85,7 +85,7 @@ namespace Quartz.Impl
         /// Gets the log.
         /// </summary>
         /// <value>The log.</value>
-        private ILog Log { get; }
+        private ILog Log { get; set; }
 
         /// <summary>
         /// Gets the instance.

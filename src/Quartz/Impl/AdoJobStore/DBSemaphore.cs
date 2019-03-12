@@ -95,7 +95,7 @@ namespace Quartz.Impl.AdoJobStore
         /// Gets the log.
         /// </summary>
         /// <value>The log.</value>
-        internal ILog Log { get; }
+        internal ILog Log { get; private set; }
 
         /// <summary>
         /// Execute the SQL that will lock the proper database row.

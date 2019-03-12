@@ -262,10 +262,15 @@ namespace Quartz.Plugin.History
         private string jobWasVetoedMessage =
             "Job {1}.{0} was vetoed.  It was to be fired (by trigger {4}.{3}) at: {2:HH:mm:ss MM/dd/yyyy}";
 
+        public LoggingJobHistoryPlugin()
+        {
+            Log = LogProvider.GetLogger(typeof(LoggingJobHistoryPlugin));
+        }
+
         /// <summary>
         /// Logger instance to use. Defaults to common logging.
         /// </summary>
-        private ILog Log { get; set; } = LogProvider.GetLogger(typeof(LoggingJobHistoryPlugin));
+        private ILog Log { get; set; }
 
         /// <summary> 
         /// Get or sets the message that is logged when a Job successfully completes its 
@@ -313,7 +318,7 @@ namespace Quartz.Plugin.History
         public virtual string Name
         {
             get { return name; }
-			set { name = value; }
+            set { name = value; }
         }
 
         /// <summary>
@@ -451,14 +456,14 @@ namespace Quartz.Plugin.History
             WriteInfo(String.Format(CultureInfo.InvariantCulture, JobWasVetoedMessage, args));
         }
 
-        protected virtual bool IsInfoEnabled => Log.IsInfoEnabled();
+        protected virtual bool IsInfoEnabled { get { return Log.IsInfoEnabled(); } }
 
         protected virtual void WriteInfo(string message)
         {
             Log.Info(message);
         }
 
-        protected virtual bool IsWarnEnabled => Log.IsWarnEnabled();
+        protected virtual bool IsWarnEnabled { get { return Log.IsWarnEnabled(); } }
 
         protected virtual void WriteWarning(string message, Exception ex)
         {

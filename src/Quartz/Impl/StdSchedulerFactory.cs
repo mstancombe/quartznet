@@ -139,7 +139,7 @@ namespace Quartz.Impl
             get { return cfg.GetStringProperty(PropertySchedulerInstanceName, "QuartzScheduler"); }
         }
 
-        private ILog Log => log;
+        private ILog Log { get { return log; } }
 
         /// <summary>
         /// Returns a handle to the default Scheduler, creating it if it does not

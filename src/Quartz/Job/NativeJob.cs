@@ -91,7 +91,7 @@ namespace Quartz.Job
         /// Gets the log.
         /// </summary>
         /// <value>The log.</value>
-        private ILog Log { get; }
+        private ILog Log { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NativeJob"/> class.

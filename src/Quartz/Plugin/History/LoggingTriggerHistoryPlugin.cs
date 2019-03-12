@@ -213,10 +213,15 @@ namespace Quartz.Plugin.History
         private string triggerMisfiredMessage = "Trigger {1}.{0} misfired job {6}.{5} at: {4:HH:mm:ss MM/dd/yyyy}.  Should have fired at: {3:HH:mm:ss MM/dd/yyyy}";
         private string triggerCompleteMessage = "Trigger {1}.{0} completed firing job {6}.{5} at {4:HH:mm:ss MM/dd/yyyy} with resulting trigger instruction code: {9}";
 
+        public LoggingTriggerHistoryPlugin()
+        {
+            Log = LogProvider.GetLogger(typeof(LoggingJobHistoryPlugin));
+        }
+
         /// <summary>
         /// Logger instance to use. Defaults to common logging.
         /// </summary>
-        private ILog Log { get; set; } = LogProvider.GetLogger(typeof(LoggingJobHistoryPlugin));
+        private ILog Log { get; set; }
 
         /// <summary> 
         /// Get or set the message that is printed upon the completion of a trigger's
@@ -408,7 +413,7 @@ namespace Quartz.Plugin.History
             return false;
         }
 
-        protected virtual bool IsInfoEnabled => Log.IsInfoEnabled();
+        protected virtual bool IsInfoEnabled { get { return Log.IsInfoEnabled(); } }
 
         protected virtual void WriteInfo(string message)
         {
