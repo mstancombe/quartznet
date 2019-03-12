@@ -80,15 +80,6 @@ namespace Quartz.Impl.AdoJobStore
         }
 
 
-        /// <summary>
-        /// Gets the log.
-        /// </summary>
-        /// <value>The log.</value>
-        protected ILog Log
-        {
-            get { return log; }
-        }
-
         private static HashSet<string> ThreadLocks
         {
             get

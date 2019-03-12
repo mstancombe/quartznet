@@ -53,15 +53,6 @@ namespace Quartz.Simpl
         }
 
         /// <summary>
-        /// Gets the log.
-        /// </summary>
-        /// <value>The log.</value>
-        protected virtual ILog Log
-        {
-            get { return log; }
-        }
-
-        /// <summary>
         /// Gets the size of the pool.
         /// </summary>
         /// <value>The size of the pool.</value>

@@ -51,15 +51,6 @@ namespace Quartz.Listener
         }
 
         /// <summary>
-        /// Get the <see cref="ILog" /> for this
-        /// class's category.  This should be used by subclasses for logging.
-        /// </summary>
-        protected ILog Log
-        {
-            get { return log; }
-        }
-
-        /// <summary>
         /// Get the name of the <see cref="ITriggerListener"/>.
         /// </summary>
         /// <value></value>

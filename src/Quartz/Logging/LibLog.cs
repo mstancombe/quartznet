@@ -439,6 +439,12 @@ namespace Quartz.Logging
         IDisposable OpenMappedContext(string key, string value);
     }
 
+    public static class LogManager
+    {
+        internal static ILog GetLogger<TLogType>() { throw new NotImplementedException(); }
+        internal static ILog GetLogger(Type loggerType) { throw new NotImplementedException(); }
+    }
+
     /// <summary>
     /// Provides a mechanism to create instances of <see cref="ILog" /> objects.
     /// </summary>

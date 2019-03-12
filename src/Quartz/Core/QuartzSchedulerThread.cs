@@ -60,15 +60,6 @@ namespace Quartz.Core
         private int idleWaitVariableness = 7*1000;
 
         /// <summary>
-        /// Gets the log.
-        /// </summary>
-        /// <value>The log.</value>
-        protected ILog Log
-        {
-            get { return log; }
-        }
-
-        /// <summary>
         /// Sets the idle wait time.
         /// </summary>
         /// <value>The idle wait time.</value>

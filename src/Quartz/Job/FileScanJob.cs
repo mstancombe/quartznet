@@ -68,15 +68,6 @@ namespace Quartz.Job
         private readonly ILog log;
 
         /// <summary>
-        /// Gets the log.
-        /// </summary>
-        /// <value>The log.</value>
-	    protected ILog Log
-	    {
-	        get { return log; }
-	    }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="FileScanJob"/> class.
         /// </summary>
 	    public FileScanJob()

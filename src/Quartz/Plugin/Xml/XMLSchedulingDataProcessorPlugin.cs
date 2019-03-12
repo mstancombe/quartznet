@@ -82,15 +82,6 @@ namespace Quartz.Plugin.Xml
             log = LogManager.GetLogger(typeof (XMLSchedulingDataProcessorPlugin));
         }
 
-        /// <summary>
-        /// Gets the log.
-        /// </summary>
-        /// <value>The log.</value>
-        protected ILog Log
-        {
-            get { return log; }
-        }
-
 
         public string Name
         {

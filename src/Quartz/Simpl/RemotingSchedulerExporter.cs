@@ -214,11 +214,6 @@ namespace Quartz.Simpl
             }
         }
 
-        protected virtual ILog Log
-        {
-            get { return log; }
-        }
-
         /// <summary>
         /// Gets or sets the port used for remoting.
         /// </summary>

@@ -128,15 +128,6 @@ namespace Quartz.Xml
         /// </summary>
         public bool ScheduleTriggerRelativeToReplacedTrigger { get; set; }
 
-        /// <summary>
-        /// Gets the log.
-        /// </summary>
-        /// <value>The log.</value>
-        protected ILog Log
-        {
-            get { return log; }
-        }
-
         protected IList<IJobDetail> LoadedJobs
         {
             get { return loadedJobs.AsReadOnly(); }

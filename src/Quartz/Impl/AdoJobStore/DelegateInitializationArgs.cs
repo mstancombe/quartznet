@@ -18,11 +18,6 @@ namespace Quartz.Impl.AdoJobStore
         public bool UseProperties { get; set; }
 
         /// <summary>
-        /// The logger to use during execution.
-        /// </summary>
-        public ILog Logger { get; set; }
-
-        /// <summary>
         /// The prefix of all table names.
         /// </summary>
         public string TablePrefix { get; set; }

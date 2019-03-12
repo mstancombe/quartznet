@@ -40,15 +40,6 @@ namespace Quartz.Listener
             log = LogManager.GetLogger(GetType());
         }
 
-        /// <summary>
-        /// Get the <see cref="ILog" /> for this
-        /// type's category.  This should be used by subclasses for logging.
-        /// </summary>
-        protected ILog Log
-        {
-            get { return log; }
-        }
-
         public virtual void JobScheduled(ITrigger trigger)
         {
         }

@@ -215,15 +215,6 @@ namespace Quartz.Plugin.History
         
         private ILog log = LogManager.GetLogger(typeof (LoggingTriggerHistoryPlugin));
 
-        /// <summary>
-        /// Logger instance to use. Defaults to common logging.
-        /// </summary>
-        public ILog Log
-        {
-            get { return log; }
-            set { log = value; }
-        }
-
         /// <summary> 
         /// Get or set the message that is printed upon the completion of a trigger's
         /// firing.

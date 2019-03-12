@@ -264,15 +264,6 @@ namespace Quartz.Plugin.History
 
         private ILog log = LogManager.GetLogger(typeof (LoggingJobHistoryPlugin));
 
-        /// <summary>
-        /// Logger instance to use. Defaults to common logging.
-        /// </summary>
-        public ILog Log
-        {
-            get { return log; }
-            set { log = value; }
-        }
-
         /// <summary> 
         /// Get or sets the message that is logged when a Job successfully completes its 
         /// execution.

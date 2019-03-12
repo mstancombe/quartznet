@@ -82,15 +82,6 @@ namespace Quartz.Impl
         private bool initialized;
         private static readonly DirectSchedulerFactory instance = new DirectSchedulerFactory();
 
-        /// <summary>
-        /// Gets the log.
-        /// </summary>
-        /// <value>The log.</value>
-	    public ILog Log
-	    {
-	        get { return log; }
-	    }
-
 	    /// <summary>
 		/// Gets the instance.
 		/// </summary>

@@ -110,15 +110,6 @@ namespace Quartz.Impl.AdoJobStore
         }
 
         /// <summary>
-        /// Gets the log.
-        /// </summary>
-        /// <value>The log.</value>
-        protected ILog Log
-        {
-            get { return log; }
-        }
-
-        /// <summary>
         /// Get or sets the prefix that should be pre-pended to all table names.
         /// </summary>
         public virtual string TablePrefix

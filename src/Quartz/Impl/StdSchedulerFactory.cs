@@ -139,11 +139,6 @@ namespace Quartz.Impl
             get { return cfg.GetStringProperty(PropertySchedulerInstanceName, "QuartzScheduler"); }
         }
 
-        protected ILog Log
-        {
-            get { return log; }
-        }
-
         /// <summary>
         /// Returns a handle to the default Scheduler, creating it if it does not
         /// yet exist.

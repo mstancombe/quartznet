@@ -88,16 +88,6 @@ namespace Quartz.Job
 	    private const string StreamTypeStandardOutput = "stdout";
 	    private const string StreamTypeError = "stderr";
 
-
-	    /// <summary>
-        /// Gets the log.
-        /// </summary>
-        /// <value>The log.</value>
-	    protected ILog Log
-	    {
-	        get { return log; }
-	    }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="NativeJob"/> class.
         /// </summary>

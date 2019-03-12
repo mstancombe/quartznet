@@ -196,11 +196,6 @@ namespace Quartz.Simpl
         }
 
 
-        protected ILog Log
-        {
-            get { return log; }
-        }
-
         /// <summary>
         /// Store the given <see cref="IJobDetail" /> and <see cref="ITrigger" />.
         /// </summary>
