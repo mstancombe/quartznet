@@ -117,6 +117,7 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="AssemblyInfoExtras.cs" />
     <Compile Include="CalendarIntervalScheduleBuilder.cs" />
     <Compile Include="Collection\ReadOnlySet.cs" />
     <Compile Include="Impl\AdoJobStore\FirebirdDelegate.cs" />

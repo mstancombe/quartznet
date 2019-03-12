@@ -34,7 +34,7 @@ namespace Quartz.Util
     /// <author>Marko Lahma</author>
     public class FileUtil
     {
-        private static readonly ILog logger = LogProvider.GetLogger<FileUtil>();
+        private static readonly ILog logger = LogProvider.GetLogger(typeof(FileUtil));
 
         /// <summary>
         /// Resolves file to actual file if for example relative '~' used.
