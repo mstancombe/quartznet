@@ -22,7 +22,7 @@
 using System;
 using System.Threading;
 
-using Common.Logging;
+using Quartz.Logging;
 #if !NET_20
 #endif
 using Quartz.Impl;

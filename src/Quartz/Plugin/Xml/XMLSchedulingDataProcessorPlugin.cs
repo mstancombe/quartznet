@@ -28,7 +28,7 @@ using System.Net;
 #if !ClientProfile
 using System.Web;
 #endif
-using Common.Logging;
+using Quartz.Logging;
 
 using Quartz.Impl;
 using Quartz.Impl.Triggers;

@@ -21,7 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
-using Common.Logging;
+using Quartz.Logging;
 
 using Quartz.Core;
 using Quartz.Simpl;

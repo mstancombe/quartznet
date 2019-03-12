@@ -20,7 +20,7 @@
 using System.Collections.Specialized;
 using System.Threading;
 
-using Common.Logging;
+using Quartz.Logging;
 
 using Quartz.Impl;
 using Quartz.Impl.Calendar;

@@ -19,7 +19,7 @@
 
 using System;
 using System.Threading;
-using Common.Logging;
+using Quartz.Logging;
 
 namespace Quartz.Examples.Example11
 {

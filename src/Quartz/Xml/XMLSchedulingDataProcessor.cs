@@ -24,7 +24,7 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
-using Common.Logging;
+using Quartz.Logging;
 
 using Quartz.Impl.Matchers;
 using Quartz.Spi;

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Specialized;
 using System.Threading;
 
-using Common.Logging;
+using Quartz.Logging;
 
 using NUnit.Framework;
 

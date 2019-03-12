@@ -28,7 +28,7 @@ using System.Runtime.Remoting.Channels.Tcp;
 using System.Runtime.Serialization.Formatters;
 using System.Security;
 
-using Common.Logging;
+using Quartz.Logging;
 
 using Quartz.Spi;
 

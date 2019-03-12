@@ -29,7 +29,7 @@ using System.Security;
 using System.Text;
 using System.Threading;
 
-using Common.Logging;
+using Quartz.Logging;
 
 using Quartz.Impl;
 using Quartz.Impl.Matchers;

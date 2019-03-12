@@ -20,7 +20,7 @@
 using System;
 using System.Globalization;
 
-using Common.Logging;
+using Quartz.Logging;
 
 using Quartz.Spi;
 

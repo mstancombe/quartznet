@@ -22,7 +22,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 
-using Common.Logging;
+using Quartz.Logging;
 
 namespace Quartz.Job
 {

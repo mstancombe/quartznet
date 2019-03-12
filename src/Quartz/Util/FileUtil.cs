@@ -24,7 +24,7 @@ using System.Security;
 using System.Web;
 #endif
 
-using Common.Logging;
+using Quartz.Logging;
 
 namespace Quartz.Util
 {

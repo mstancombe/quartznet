@@ -25,7 +25,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 
-using Common.Logging;
+using Quartz.Logging;
 
 using System.Linq;
 

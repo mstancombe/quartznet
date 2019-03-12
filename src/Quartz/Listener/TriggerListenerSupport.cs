@@ -19,7 +19,7 @@
 
 #endregion
 
-using Common.Logging;
+using Quartz.Logging;
 
 namespace Quartz.Listener
 {

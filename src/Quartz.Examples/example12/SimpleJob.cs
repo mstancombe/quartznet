@@ -21,7 +21,7 @@
 
 using System;
 
-using Common.Logging;
+using Quartz.Logging;
 
 namespace Quartz.Examples.Example12
 {

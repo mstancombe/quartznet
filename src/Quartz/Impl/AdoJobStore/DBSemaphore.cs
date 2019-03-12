@@ -22,7 +22,7 @@
 using System;
 using System.Threading;
 
-using Common.Logging;
+using Quartz.Logging;
 using Quartz.Collection;
 using Quartz.Impl.AdoJobStore.Common;
 using Quartz.Util;

@@ -25,7 +25,7 @@ using System.Data;
 using System.Data.Common;
 using System.Runtime.Serialization;
 
-using Common.Logging;
+using Quartz.Logging;
 
 using NUnit.Framework;
 

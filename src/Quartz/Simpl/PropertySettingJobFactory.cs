@@ -21,7 +21,7 @@ using System;
 using System.Globalization;
 using System.Reflection;
 
-using Common.Logging;
+using Quartz.Logging;
 
 using Quartz.Spi;
 using Quartz.Util;

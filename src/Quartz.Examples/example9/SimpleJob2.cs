@@ -17,7 +17,7 @@
  */
 #endregion
 
-using Common.Logging;
+using Quartz.Logging;
 
 namespace Quartz.Examples.Example9
 {

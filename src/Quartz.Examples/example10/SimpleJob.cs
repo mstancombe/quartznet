@@ -22,7 +22,7 @@
 using System;
 using System.Collections.Generic;
 
-using Common.Logging;
+using Quartz.Logging;
 
 namespace Quartz.Examples.Example10
 {

@@ -27,7 +27,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 
-using Common.Logging;
+using Quartz.Logging;
 
 using Quartz.Impl.AdoJobStore.Common;
 using Quartz.Impl.Matchers;

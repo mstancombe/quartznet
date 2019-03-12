@@ -28,7 +28,7 @@ using System.IO;
 using System.Reflection;
 using System.Threading;
 
-using Common.Logging;
+using Quartz.Logging;
 
 using Quartz.Impl.AdoJobStore.Common;
 using Quartz.Impl.Matchers;

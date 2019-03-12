@@ -23,7 +23,7 @@ using System.Globalization;
 using System.Text;
 using System.Threading;
 
-using Common.Logging;
+using Quartz.Logging;
 
 using Quartz.Collection;
 using Quartz.Impl.Matchers;

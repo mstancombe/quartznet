@@ -25,7 +25,7 @@ using System.IO;
 using System.Reflection;
 using System.Security;
 
-using Common.Logging;
+using Quartz.Logging;
 
 using Quartz.Core;
 using Quartz.Impl.AdoJobStore;

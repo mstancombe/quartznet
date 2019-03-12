@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-using Common.Logging;
+using Quartz.Logging;
 
 namespace Quartz.Job
 {

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-using Common.Logging;
+using Quartz.Logging;
 using Common.Logging.Factory;
 
 namespace Quartz.Tests.Integration

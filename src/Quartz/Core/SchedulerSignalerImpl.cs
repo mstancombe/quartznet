@@ -19,7 +19,7 @@
 
 using System;
 
-using Common.Logging;
+using Quartz.Logging;
 
 using Quartz.Spi;
 

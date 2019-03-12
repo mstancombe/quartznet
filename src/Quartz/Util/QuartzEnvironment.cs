@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security;
 
-using Common.Logging;
+using Quartz.Logging;
 
 namespace Quartz.Util
 {
