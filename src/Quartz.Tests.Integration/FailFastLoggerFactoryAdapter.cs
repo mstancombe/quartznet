@@ -35,7 +35,8 @@ namespace Quartz.Tests.Integration
             return true;
         }
 
-        public static List<string> Errors { get; } = new List<string>();
+        private static readonly List<string> _errors = new List<string>();
+        public static List<string> Errors { get { return _errors; } }
 
         private class DisposableAction : IDisposable
         {

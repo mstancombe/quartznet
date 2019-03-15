@@ -209,6 +209,7 @@
       debug="${build.debug}" 
       optimize="${build.optimize}" 
       define="${build.defines}"
+      keyfile="${build.keyfile}"
 	  nostdlib="true" noconfig="true">
       <nowarn>
         <!-- do not report warnings for missing XML comments -->
@@ -271,6 +272,7 @@
       debug="${build.debug}" 
       optimize="${build.optimize}" 
       define="${build.defines}"
+      keyfile="${build.keyfile}"
 	  nostdlib="true" noconfig="true">
       <nowarn>
       </nowarn>
@@ -327,6 +329,7 @@
       debug="${build.debug}" 
       optimize="${build.optimize}" 
       define="${build.defines}"
+      keyfile="${build.keyfile}"
 	  nostdlib="true" noconfig="true">
       <nowarn>
         <!-- do not report warnings for missing XML comments -->

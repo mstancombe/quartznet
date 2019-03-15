@@ -99,11 +99,17 @@ namespace Quartz.Tests.Unit.Plugin.History
 
         private class RecordingLoggingJobHistoryPlugin : LoggingJobHistoryPlugin
         {
-            public List<string> InfoMessages { get; } = new List<string>();
-            public List<string> WarnMessages { get; } = new List<string>();
+            public RecordingLoggingJobHistoryPlugin()
+            {
+                InfoMessages = new List<string>();
+                WarnMessages = new List<string>();
+            }
 
-            protected override bool IsInfoEnabled => true;
-            protected override bool IsWarnEnabled => true;
+            public List<string> InfoMessages { get; private set; }
+            public List<string> WarnMessages { get; private set; }
+
+            protected override bool IsInfoEnabled { get { return true; } }
+            protected override bool IsWarnEnabled { get { return true; } }
 
             protected override void WriteInfo(string message)
             {

@@ -103,9 +103,13 @@ namespace Quartz.Tests.Unit.Plugin.History
 
         private class RecordingLoggingTriggerHistoryPlugin : LoggingTriggerHistoryPlugin
         {
-            public List<string> InfoMessages { get; } = new List<string>();
+            public RecordingLoggingTriggerHistoryPlugin()
+            {
+                InfoMessages = new List<string>();
+            }
+            public List<string> InfoMessages { get; private set; }
 
-            protected override bool IsInfoEnabled => true;
+            protected override bool IsInfoEnabled  { get { return true; } }
 
             protected override void WriteInfo(string message)
             {
